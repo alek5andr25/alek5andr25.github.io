@@ -20,31 +20,64 @@
   // Все три колонны движутся сразу. На телефоне играет один видимый ролик,
   // на широком экране — не больше одного в каждой колонне. Остальные показывают заставки.
   const hero = $('.hero'), candidates = new Map();
+  let heroVisible = false, wallPaused = false;
   const play = es => {
     es.forEach(e => { if (e.isIntersecting && e.intersectionRatio >= .2) candidates.set(e.target, e.intersectionRatio); else candidates.delete(e.target) });
     const allowed = new Set(), columns = new Set(), limit = innerWidth < 700 ? 1 : 3;
-    if (!LITE && !CALM && !document.body.classList.contains('paused')) {
+    if (heroVisible && !wallPaused && !document.hidden && !LITE && !CALM && !document.body.classList.contains('paused')) {
       [...candidates].sort((a, b) => b[1] - a[1]).forEach(([tile]) => {
         const col = tile.closest('.col');
-        if (allowed.size < limit && !columns.has(col)) { allowed.add(tile.querySelector('video')); columns.add(col) }
+        if (allowed.size < limit && !columns.has(col)) { allowed.add(tile); columns.add(col) }
       });
     }
-    $$('.wall video').forEach(v => { if (allowed.has(v)) { if (!v.getAttribute('src')) v.src = v.dataset.src; v.preload = 'auto'; if (v.paused) v.play().catch(() => {}) } else v.pause() });
+    $$('.wall video').forEach(v => { if (!allowed.has(v.parentElement)) v.pause() });
+    for (const tile of allowed) {
+      let video = tile.querySelector('video');
+      if (!video) {
+        video = document.createElement('video');
+        Object.assign(video, {muted:true, loop:true, playsInline:true});
+        video.src = (innerWidth < 700 && tile.dataset.small) || tile.dataset.src;
+        tile.querySelector('.zast').after(video);
+      }
+      if (video.paused) video.play().catch(() => {});
+    }
   };
   const ioHero = hero && new IntersectionObserver(play, {root: hero,
     rootMargin: `-${Math.round(hero.clientHeight * .12)}px 0px -${Math.round(hero.clientHeight * .62)}px 0px`, threshold: [0, .2, .5, .8, 1]});
   const watch = () => { if (ioHero) { candidates.clear(); $$('.wall .tile.v').forEach(t => { ioHero.unobserve(t); ioHero.observe(t) }) } };
   // Ролики начинают грузиться после того, как страница показана: текст, кнопки и заставки — первыми.
+  if (hero) {
+    const visibility = new IntersectionObserver(([entry]) => {
+      heroVisible = entry.isIntersecting;
+      hero.classList.toggle('rest', !heroVisible || document.hidden);
+      play([]);
+    });
+    visibility.observe(hero);
+    document.addEventListener('visibilitychange', () => {
+      hero.classList.toggle('rest', !heroVisible || document.hidden);
+      play([]);
+    });
+    if (LITE) hero.classList.add('rest-data');
+    const toggle = $('#wall-toggle');
+    if (toggle && !LITE && !CALM) {
+      toggle.hidden = false;
+      toggle.onclick = () => {
+        wallPaused = !wallPaused;
+        hero.classList.toggle('rest-user', wallPaused);
+        toggle.textContent = wallPaused ? 'Включить движение' : 'Остановить фон';
+        play([]);
+      };
+    }
+  }
   const pusk = () => setTimeout(watch, 250);
   if (document.readyState === 'complete') pusk(); else addEventListener('load', pusk, {once: true});
 
   // Нажатие на ролик — сторис по роликам того же блока. Без скриптов это обычная ссылка на страницу работы.
-  const fmt = id => (S.raboty.find(r => r.i === id) || {}).f || '';
   document.addEventListener('click', e => {
     const kt = e.target.closest('.tile.kart'), K = S.kartinki;
     if (kt && K && window.openStory && !e.metaKey && !e.ctrlKey && !e.shiftKey && !/\/kartinki\//.test(kt.getAttribute('href'))) {
       e.preventDefault();
-      return openStory(K.spisok.map(x => ({id: x.i, img: x.src, label: x.p, tekst: K.tekst})), 0);
+      return openStory(K.spisok.map(x => ({id: x.i, img: x.src, label: x.p, tekst: K.tekst})), 0, kt);
     }
     const t = e.target.closest('.tile.v'); if (!t || e.metaKey || e.ctrlKey || e.shiftKey || !window.openStory) return;
     const box = t.closest('[data-storis]'); if (!box) return;
@@ -52,7 +85,11 @@
     const ids = t.dataset.ids ? t.dataset.ids.split(',') : [...new Set($$('.tile.v', box).filter(x => !x.closest('[hidden]')).map(x => x.dataset.id))];
     const k = ids.indexOf(t.dataset.id); if (k < 0) return;
     e.preventDefault();
-    openStory(ids.map(id => ({id, label: fmt(id) || (x => x ? x.textContent : '')($('.tile.v[data-id="' + id + '"] .cap i'))})), k);
+    const list = ids.map(id => {
+      const item = S.raboty.find(r => r.i === id);
+      return {id, label: item?.f || '', title: item?.n || ''};
+    });
+    openStory(list, k, t);
   });
   document.addEventListener('storyopen', () => { document.body.classList.add('paused'); $$('.tile video, .media video').forEach(v => v.pause()) });
   document.addEventListener('storyclose', () => { document.body.classList.remove('paused'); watch() });
