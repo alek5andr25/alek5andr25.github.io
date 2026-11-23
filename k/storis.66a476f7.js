@@ -1,7 +1,8 @@
 // Просмотр работ (основа — z30) «как сторис» — на весь экран, полоски сверху, тап слева/справа или свайп — соседний ролик,
 // смахнуть вниз, «×» или «Назад» на телефоне — закрыть. Звук включается кнопкой и остаётся включённым до конца просмотра.
 // Полоска идёт по длине самого ролика, по концу — следующий.
-// openStory(items, start), items: [{id, label}] — ролик /r/<id>.mp4, кадр-заставка /r/<id>.jpg.
+// openStory(items, start), items: [{id, label}] — ролик /r/<id>.mp4, кадр-заставка /r/<id>.jpg;
+// {id, img, label, tekst} — картинка: 5 секунд, без звука; tekst — свой набранный текст для кнопки.
 (function () {
   const S = window.S, M = S.m, TG = t => 'https://t.me/' + S.tg + '?text=' + encodeURIComponent(t);
   const css = `
@@ -9,8 +10,9 @@
   opacity:0;transform:scale(.96);transition:opacity .28s ease,transform .38s cubic-bezier(.22,1,.36,1);touch-action:none}
 .st.open{opacity:1;transform:none}
 .st video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.st video.in-l{animation:st-in-l .3s cubic-bezier(.22,1,.36,1)}
-.st video.in-r{animation:st-in-r .3s cubic-bezier(.22,1,.36,1)}
+.st .st-pic{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.st video.in-l,.st .st-pic.in-l{animation:st-in-l .3s cubic-bezier(.22,1,.36,1)}
+.st video.in-r,.st .st-pic.in-r{animation:st-in-r .3s cubic-bezier(.22,1,.36,1)}
 @keyframes st-in-l{from{transform:translateX(-14%);opacity:.3}}
 @keyframes st-in-r{from{transform:translateX(14%);opacity:.3}}
 .st-shade{position:absolute;inset:0;pointer-events:none;
@@ -31,7 +33,7 @@
 .st-tap.l{left:0}.st-tap.r{right:0}
 .st-cta{position:absolute;left:16px;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));height:52px;border-radius:4px;
   display:flex;align-items:center;justify-content:center;background:#FEFBF5;color:#080F16;font-weight:600;font-size:15px;text-decoration:none}
-@media (prefers-reduced-motion:reduce){.st{transition:none}.st video.in-l,.st video.in-r{animation:none}}`;
+@media (prefers-reduced-motion:reduce){.st{transition:none}.st video.in-l,.st video.in-r,.st .st-pic.in-l,.st .st-pic.in-r{animation:none}}`;
   const style = document.createElement('style'); style.textContent = css; document.head.appendChild(style);
 
   const NS = 'http://www.w3.org/2000/svg';
@@ -49,6 +51,7 @@
 
   let opener = null, zakryto = [];
   let root, vid, bars, label, snd, cta, items = [], cur = 0, sound = false, raf = 0, failT = 0, pushed = false, x0 = null, y0 = 0, swipedAt = 0;
+  let pic, t0 = 0; const DUR = 5000;   // картинка держится 5 секунд
   function el(tag, cls, parent) { const e = document.createElement(tag); if (cls) e.className = cls; if (parent) parent.appendChild(e); return e; }
   function setSnd() {
     snd.textContent = ''; snd.classList.toggle('on', sound); snd.setAttribute('aria-pressed', sound);
@@ -67,6 +70,8 @@
     vid.addEventListener('ended', () => show(cur + 1));
     vid.addEventListener('error', () => { clearTimeout(failT); failT = setTimeout(() => show(cur + 1), 4000) });
     vid.addEventListener('animationend', () => vid.className = '');
+    pic = el('img', 'st-pic', root); pic.alt = ''; pic.hidden = true;
+    pic.addEventListener('animationend', () => pic.className = 'st-pic');
     el('div', 'st-shade', root);
     const l = el('div', 'st-tap l', root), r = el('div', 'st-tap r', root);
     l.onclick = () => { if (Date.now() - swipedAt > 400) show(cur - 1, -1) };
@@ -95,7 +100,11 @@
   }
   // полоска текущего ролика — по его времени
   function tick() {
-    const b = bars.children[cur]; if (b && vid.duration) b.firstChild.style.transform = `scaleX(${Math.min(1, vid.currentTime / vid.duration)})`;
+    const b = bars.children[cur], it = items[cur];
+    if (b && it && it.img) {
+      const p = Math.min(1, Math.max(0, (performance.now() - t0) / DUR)); b.firstChild.style.transform = `scaleX(${p})`;
+      if (p >= 1) { t0 = Infinity; show(cur + 1, 1) }    // Infinity — чтобы конец картинки сработал один раз
+    } else if (b && vid.duration) b.firstChild.style.transform = `scaleX(${Math.min(1, vid.currentTime / vid.duration)})`;
     raf = requestAnimationFrame(tick);
   }
   function show(n, dir) {
@@ -106,7 +115,13 @@
     cur = n; const it = items[cur];
     [...bars.children].forEach((b, i) => { b.firstChild.style.transform = i < cur ? 'scaleX(1)' : 'scaleX(0)' });
     label.textContent = it.label;
-    cta.href = TG(S.t.tak.replace('{format}', it.label) + (S.ot || ''));
+    cta.href = TG((it.tekst || S.t.tak.replace('{format}', it.label)) + (S.ot || ''));
+    if (it.img) {                                   // картинка: ролик молчит, звук не нужен
+      vid.pause(); vid.hidden = true; snd.hidden = true; pic.hidden = false; t0 = performance.now();
+      if (!back) { pic.src = it.img; pic.alt = it.label; pic.className = 'st-pic'; if (dir) { void pic.offsetWidth; pic.className = 'st-pic ' + (dir > 0 ? 'in-r' : 'in-l') } }
+      return;
+    }
+    pic.hidden = true; vid.hidden = false; snd.hidden = false;
     if (back) { vid.currentTime = 0; return play() }
     const md = (S.media || {})[it.id] || [M + it.id + '.mp4', M + it.id + '.jpg'];
     vid.poster = md[1]; vid.src = md[0];
@@ -117,7 +132,7 @@
     cancelAnimationFrame(raf); clearTimeout(failT); root.classList.remove('open'); vid.pause();
     zakryto.forEach(x => { x.inert = false }); zakryto = [];
     if (opener && opener.focus) opener.focus({preventScroll: true}); opener = null;
-    setTimeout(() => { root.hidden = true; vid.removeAttribute('src'); vid.load(); document.dispatchEvent(new Event('storyclose')) }, 300);
+    setTimeout(() => { root.hidden = true; vid.removeAttribute('src'); vid.load(); pic.removeAttribute('src'); document.dispatchEvent(new Event('storyclose')) }, 300);
   }
   function close() { if (root.hidden) return; if (pushed) { pushed = false; history.back() } else hide() }
   window.openStory = function (list, start) {

@@ -41,9 +41,15 @@
   // Нажатие на ролик — сторис по роликам того же блока. Без скриптов это обычная ссылка на страницу работы.
   const fmt = id => (S.raboty.find(r => r.i === id) || {}).f || '';
   document.addEventListener('click', e => {
+    const kt = e.target.closest('.tile.kart'), K = S.kartinki;
+    if (kt && K && window.openStory && !e.metaKey && !e.ctrlKey && !e.shiftKey && !/\/kartinki\//.test(kt.getAttribute('href'))) {
+      e.preventDefault();
+      return openStory(K.spisok.map(x => ({id: x.i, img: x.src, label: x.p, tekst: K.tekst})), 0);
+    }
     const t = e.target.closest('.tile.v'); if (!t || e.metaKey || e.ctrlKey || e.shiftKey || !window.openStory) return;
     const box = t.closest('[data-storis]'); if (!box) return;
-    const ids = [...new Set($$('.tile.v', box).filter(x => !x.closest('[hidden]')).map(x => x.dataset.id))];
+    // плитка вида роликов несёт свой список (data-ids): в просмотре — только ролики этого вида
+    const ids = t.dataset.ids ? t.dataset.ids.split(',') : [...new Set($$('.tile.v', box).filter(x => !x.closest('[hidden]')).map(x => x.dataset.id))];
     const k = ids.indexOf(t.dataset.id); if (k < 0) return;
     e.preventDefault();
     openStory(ids.map(id => ({id, label: fmt(id) || (x => x ? x.textContent : '')($('.tile.v[data-id="' + id + '"] .cap i'))})), k);
