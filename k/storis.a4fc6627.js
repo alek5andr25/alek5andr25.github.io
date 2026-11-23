@@ -52,6 +52,12 @@
     root.setAttribute('aria-label', 'Просмотр работ');
     panel = element('div', 'st-panel', root);
     const header = element('div', 'st-top', panel), row = element('div', 'st-row', header);
+    const directions = document.querySelector('.site-head .direction-nav');
+    if (directions) {
+      const nav = directions.cloneNode(true);
+      nav.classList.add('story-directions');
+      header.prepend(nav);
+    }
     const heading = element('div', 'st-heading', row);
     heading.setAttribute('aria-live', 'polite');
     caption = element('small', '', heading);

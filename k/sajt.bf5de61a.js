@@ -39,7 +39,7 @@
     video.setAttribute('aria-hidden', 'true');
     video.addEventListener('playing', () => video.classList.add('playing'), {once:true});
     active.set(tile, video);
-    tile.querySelector('img').after(video);
+    tile.querySelector('picture, img').after(video);
     video.src = (innerWidth < 700 && tile.dataset.small) || tile.dataset.src;
     video.play().catch(() => {}); // Браузер может разрешать видео только по нажатию. Заставка остаётся на месте.
   }
