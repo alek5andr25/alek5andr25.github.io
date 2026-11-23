@@ -23,7 +23,30 @@
   let userPaused = false;
   let heroInView = false;
   let pointed = null;
+  let scrollTimer = 0;
   const player = $('.player video');
+
+  const slider = $('.film-slider');
+  if (hero && slider) {
+    const narrow = matchMedia('(max-width:759px)');
+    const reset = () => {
+      slider.value = narrow.matches ? 22 : 34;
+      hero.style.setProperty('--cut', slider.value + '%');
+    };
+    reset();
+    narrow.addEventListener('change', reset);
+    slider.hidden = false;
+    if (!calm()) hero.classList.add('film-intro');
+    const takeControl = () => hero.classList.remove('film-intro');
+    slider.addEventListener('pointerdown', takeControl);
+    slider.addEventListener('input', () => {
+      takeControl();
+      hero.style.setProperty('--cut', slider.value + '%');
+    });
+    hero.addEventListener('animationend', event => {
+      if (event.animationName === 'open-paper') takeControl();
+    });
+  }
 
   function stopPreview(tile, video) {
     active.delete(tile);
@@ -45,6 +68,8 @@
   }
 
   function updateControls() {
+    document.documentElement.toggleAttribute('data-calm', calm() || userPaused);
+    if (calm() || userPaused) hero?.classList.remove('film-intro');
     for (const button of toggles) {
       button.hidden = calm();
       button.toggleAttribute('data-stopped', userPaused);
@@ -52,24 +77,37 @@
     }
   }
 
+  function uncovered(tile) {
+    // Закреплённые работы могут делить одно место. Декодируем видимый кадр.
+    if (scrollTimer || !tile.closest('.ai-films')) return true;
+    const r = tile.getBoundingClientRect();
+    const x = (Math.max(0, r.left) + Math.min(innerWidth, r.right)) / 2;
+    const y = (Math.max(0, r.top) + Math.min(innerHeight, r.bottom)) / 2;
+    return tile.contains(document.elementFromPoint(x, y));
+  }
+
   function refresh() {
     const stopped = userPaused || calm() || document.hidden || document.body.classList.contains('paused') || (player && !player.paused);
     if (hero) hero.classList.toggle('rest', stopped || !heroInView);
     const wanted = new Set();
     if (!stopped && visible.size) {
-      const candidates = [...visible.keys()].sort((a, b) => visible.get(b) - visible.get(a));
-      const first = [document.activeElement, pointed].find(tile => visible.has(tile)) || candidates[0];
-      wanted.add(first);
-      if (innerWidth >= 700 && first.closest('.wall')) {
+      const candidates = [...visible.keys()].filter(uncovered).sort((a, b) => visible.get(b) - visible.get(a));
+      const first = [document.activeElement, pointed].find(tile => candidates.includes(tile)) || candidates[0];
+      if (first) wanted.add(first);
+      if (innerWidth >= 700 && first?.closest('.wall')) {
+        const cover = candidates.find(tile => tile.parentElement.classList.contains('wall-frame'));
+        if (cover) wanted.add(cover);
         const columns = new Set([first.closest('.col')]);
         for (const tile of candidates) {
           const col = tile.closest('.col');
-          if (col && !columns.has(col)) { wanted.add(tile); columns.add(col); }
+          if (wanted.size < 3 && col && !columns.has(col)) { wanted.add(tile); columns.add(col); }
         }
       }
     }
     for (const [tile, video] of active) if (!wanted.has(tile)) stopPreview(tile, video);
-    for (const tile of wanted) if (!active.has(tile)) startPreview(tile);
+    if (!scrollTimer) {
+      for (const tile of wanted) if (!active.has(tile)) startPreview(tile);
+    }
   }
 
   if (hero) {
@@ -78,7 +116,8 @@
   for (const button of toggles) {
     button.addEventListener('click', () => { userPaused = !userPaused; updateControls(); refresh(); });
   }
-  const observeTiles = () => {
+  const observeTiles = tiles => {
+    if (!tiles.length) return;
     const observer = new IntersectionObserver(entries => {
       for (const entry of entries) {
         if (entry.isIntersecting && entry.intersectionRatio >= .2) visible.set(entry.target, entry.intersectionRect.width * entry.intersectionRect.height);
@@ -86,8 +125,15 @@
       }
       refresh();
     }, {threshold:[0, .2, .5, .8, 1]});
-    $$('.tile[data-src]').forEach(tile => observer.observe(tile));
+    tiles.forEach(tile => observer.observe(tile));
   };
+  // Не создаём проигрыватель для каждой заставки, промелькнувшей при быстром листании.
+  if ($('.tile[data-src]')) {
+    document.addEventListener('scroll', () => {
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => { scrollTimer = 0; refresh(); }, 150);
+    }, {passive:true});
+  }
   document.addEventListener('visibilitychange', refresh);
   const preferenceChanged = () => { updateControls(); refresh(); };
   motion.addEventListener('change', preferenceChanged);
@@ -102,7 +148,14 @@
   player?.addEventListener('pause', refresh);
   updateControls();
   refresh();
-  const afterLoad = () => setTimeout(observeTiles, 250);
+  const tiles = $$('.tile[data-src]');
+  const cover = $('.film-hero .wall-frame > .tile[data-src]');
+  if (cover) {
+    // Фильм начинает загружаться, как только готов его постер, независимо от ленты миниатюр.
+    const watchCover = () => observeTiles([cover]);
+    $('img', cover).decode().then(watchCover, watchCover);
+  }
+  const afterLoad = () => setTimeout(() => observeTiles(tiles.filter(tile => tile !== cover)), 250);
   if (document.readyState === 'complete') afterLoad(); else addEventListener('load', afterLoad, {once:true});
 
   if (!calm()) {

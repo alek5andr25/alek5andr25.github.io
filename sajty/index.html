@@ -18,15 +18,24 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#03060A">
+<meta name="theme-color" content="#171815">
 <link rel="icon" href="/znachok.svg" type="image/svg+xml">
 <link rel="preload" href="/s/inter-display-800.c15480d4.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
 <link rel="preload" href="/s/inter-400.d362fe16.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-<style>/* c202. Палитра «Кино»; Inter — разрешённый временный шрифт, не утверждённый выбор блога. */
+<style>/* Локальные шрифты, бумага и графит. Светлый сигнальный цвет — для действия на тёмном. */
 @font-face{font-family:'Inter Display';src:url(/s/inter-display-800.c15480d4.woff2) format('woff2');font-weight:800 900;font-display:swap}
 @font-face{font-family:Inter;src:url(/s/inter-400.d362fe16.woff2) format('woff2');font-weight:400 500;font-display:swap}
 @font-face{font-family:Inter;src:url(/s/inter-600.435c446b.woff2) format('woff2');font-weight:600 700;font-display:swap}
-:root{--night:#03060A;--steel:#080F16;--graphite:#121C24;--lead:#242F39;--frost:#A7B3BD;--milk:#FEFBF5;--bone:#F5F1E8;--linen:#E8E1D6;--clay:#CFC6B9;--walnut:#695E55;--blood:#B61A24;--scarlet:#F12629;--wine:#6B0A17;--bg:var(--bone);--text:var(--steel);--muted:var(--walnut);--line:var(--clay);--dot:var(--blood);--display:'Inter Display',Arial,sans-serif;--body:Inter,Arial,sans-serif;--gutter:max(clamp(16px,3.125vw,96px),env(safe-area-inset-left),env(safe-area-inset-right));--grid-gap:clamp(12px,1.4vw,32px);color-scheme:light}
+:root {
+  --night:#171815;--steel:#1d201b;--graphite:#252822;--lead:#41463b;--frost:#bec4b7;
+  --milk:#fbf8ee;--bone:#f0eee4;--linen:#dedfd3;--clay:#c0c3b5;--walnut:#535a4c;
+  --blood:#4a5c1b;--scarlet:#def36b;--wine:#384514;
+  --bg:var(--bone);--text:var(--steel);--muted:var(--walnut);--line:var(--clay);--dot:var(--blood);
+  --display:'Inter Display',Arial,sans-serif;--body:Inter,Arial,sans-serif;
+  --editorial:Georgia,'Times New Roman',serif;
+  --gutter:max(clamp(16px,3.125vw,96px),env(safe-area-inset-left),env(safe-area-inset-right));
+  --grid-gap:clamp(12px,1.4vw,32px);color-scheme:light
+}
 *{box-sizing:border-box;margin:0;padding:0}
 [hidden]{display:none!important}
 html{scroll-behavior:smooth;scroll-padding-top:20px}
@@ -618,6 +627,114 @@ html {scroll-padding-top:72px}
 .story-directions {grid-area:auto;justify-content:space-between;gap:4px;border:0;border-bottom:1px solid var(--lead)}
 .story-directions a {padding:12px 4px;min-height:44px;font-size:.875rem;text-decoration:none}
 .story-directions a span {display:none}
+
+/* Обложка ролика рядом с тремя движущимися лентами. */
+.cut-hero {padding-bottom:clamp(24px,4vw,58px)}
+.hero-layout {gap:16px}
+.hero-title {padding-top:clamp(22px,3.1vw,56px)}
+.title-word {font-size:clamp(78px,28vw,158px);line-height:.8;letter-spacing:-.067em}
+.title-subject {font:italic 400 clamp(23px,6.4vw,42px)/1.08 var(--editorial);letter-spacing:-.045em}
+.wall-frame:has(>.tile) {
+  display:grid;grid-template-columns:minmax(0,2.5fr) minmax(0,1fr);gap:3px;
+  height:clamp(238px,33svh,390px);margin:0;background:var(--night)
+}
+.wall-frame>.tile {height:100%;aspect-ratio:auto;border-radius:0;isolation:isolate}
+.wall-frame>.tile :is(img,video) {object-position:50% 7%}
+.wall-frame>.tile:focus-visible {outline-offset:-4px}
+.wall-frame:has(>.tile) .wall {
+  position:relative;grid-template:repeat(3,minmax(0,1fr))/minmax(0,1fr);gap:3px;
+}
+.wall-frame:has(>.tile) .wall .tile {aspect-ratio:1.4}
+.wall-frame:has(>.tile) .wall .cap {padding:16px 6px 4px}
+.cover-play {
+  position:absolute;bottom:clamp(12px,1.8vw,26px);right:clamp(12px,1.8vw,26px);
+  width:clamp(42px,4.6vw,70px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;
+  color:var(--steel);background:var(--scarlet);pointer-events:none
+}
+.cover-play::after {content:"";border:8px solid transparent;border-left:13px solid currentColor;border-right:0;margin-left:3px}
+.hero .hero-offer .lead {max-width:39ch;margin-bottom:16px}
+.hero .cta,.dir-opening .cta,.contact-end .cta,.dock .cta {background:var(--scarlet);color:var(--steel)}
+:is(.hero,.dir-opening,.contact-end,.dock) .cta:hover {background:var(--milk);color:var(--night)}
+.cta {border-radius:100px}
+.result-band {background:var(--scarlet);color:var(--steel);border:0}
+.result-band .metric span {color:inherit;font:italic 400 .58em/1 var(--editorial)}
+.result-band p {max-width:18ch}
+@media(max-width:619px) {
+  .result-band>div {flex:0 0 43%}
+  .result-band p {max-width:none;min-height:2.44em}
+}
+.kicker {letter-spacing:.018em}
+.kicker::before {width:10px;height:10px;border-radius:50%}
+.feature-trial,.feature-trial#cena {--bg:var(--scarlet);--text:var(--steel);--muted:var(--steel);--line:var(--blood)}
+.feature-trial .cta {background:var(--steel);color:var(--milk)}
+.feature-trial .cta:hover {background:var(--milk);color:var(--steel)}
+.feature-trial .trial-road li {border-color:var(--blood)}
+.study {background:var(--steel)}
+.study-intro .kicker,.formats .kicker {color:var(--scarlet)}
+.ai-films h3,.contact-end .fbig {font:italic 400 clamp(2.8rem,6.8vw,7.4rem)/.98 var(--editorial);letter-spacing:-.055em}
+.ai-films figure .tile {border-radius:0}
+.ai-films>div {align-items:start}
+.direction-list a {grid-template-columns:1fr auto;column-gap:16px}
+.direction-list a span {grid-column:1}
+.direction-list a::after {
+  content:"";width:13px;height:13px;border-top:2px solid;border-right:2px solid;
+  grid-column:2;grid-row:1/3;align-self:center;margin-right:8px
+}
+.detail-layout>.player {position:relative;border:1px solid var(--lead)}
+@media(max-width:759px) {
+  .ai-films>div {
+    display:flex;overflow-x:auto;gap:12px;margin-inline:calc(0px - var(--gutter));
+    padding:0 var(--gutter) 16px;scroll-padding-inline:var(--gutter);
+    scroll-snap-type:x mandatory;scrollbar-color:var(--frost) var(--graphite);scrollbar-width:thin
+  }
+  .ai-films figure {flex:0 0 78%;scroll-snap-align:start;min-width:0}
+  .ai-films figure .tile,.ai-films figure:first-child .tile {aspect-ratio:4/5}
+}
+@media(min-width:760px) {
+  .ai-films>div {grid-template-columns:1.1fr 1fr .9fr;gap:clamp(14px,2vw,34px)}
+  .ai-films figure:nth-child(2) {padding-top:5vw}
+  .ai-films figure:nth-child(3) {padding-top:10vw}
+  .ai-films figure .tile,.ai-films figure:first-child .tile {aspect-ratio:4/5}
+}
+@media(min-width:900px) {
+  .cut-hero {padding-block:clamp(22px,3.3vw,60px)}
+  .hero-layout {grid-template-columns:minmax(0,.83fr) minmax(0,1.17fr);grid-template-rows:1fr auto;gap:28px var(--gutter)}
+  .hero-title {grid-area:1/1;align-self:center;padding:0}
+  .title-word {font-size:clamp(104px,12.45vw,268px)}
+  .title-subject {font-size:clamp(30px,3.3vw,66px);margin-top:.5em}
+  .hero-offer {grid-area:2/1;align-self:end;border-top:1px solid var(--lead);padding:clamp(16px,2vw,32px) 0 0}
+  .hero .hero-offer .lead {font-size:clamp(17px,1.45vw,24px);margin-bottom:22px}
+  .wall-frame:has(>.tile) {grid-area:1/2/3/3;height:clamp(450px,67svh,840px);gap:5px;grid-template-columns:minmax(0,2.3fr) minmax(0,1fr)}
+  .wall-frame:has(>.tile) .wall {gap:5px}
+  .wall-frame:has(>.tile) .wall .cap {padding:24px 10px 8px}
+  .result-band {justify-content:space-between}
+  .result-band p {font-size:clamp(22px,2.8vw,44px)}
+  .study {margin-inline:calc(0px - var(--gutter));padding-inline:var(--gutter)}
+  .study-intro {position:sticky;top:108px;align-self:start}
+  .study .tile {aspect-ratio:3/4}
+  .study-films figure:last-child {padding-top:clamp(28px,5vw,84px)}
+  .detail-layout>.player {background:repeating-linear-gradient(90deg,var(--graphite) 0 31px,var(--lead) 31px 32px)}
+}
+@media(hover:hover) and (prefers-reduced-motion:no-preference) {
+  .cover-play,.format-piece .cap::after,.direction-list a::after {transition:transform .22s ease-out}
+  .wall-frame>.tile:hover .cover-play,.format-piece .tile:hover .cap::after {transform:scale(1.09)}
+  .direction-list a:hover::after {transform:translate(3px,-3px)}
+}
+@media(min-width:370px) and (max-width:619px) {
+  .hero .hero-offer .cta {flex:none;padding-inline:16px}
+  .hero-offer .hero-actions {gap:8px}
+}
+
+/* При входе кадр мягко раскрывается внутри своего прямоугольника. */
+@supports (animation-timeline:view()) {
+  @media(prefers-reduced-motion:no-preference) {
+    html:not([data-calm]) :is(.study-films,.ai-films) .tile {view-timeline-name:--film}
+    html:not([data-calm]) :is(.study-films,.ai-films) .tile :is(.zast,video) {
+      animation:film-entry linear both;animation-timeline:--film;animation-range:entry 0% entry 100%
+    }
+    @keyframes film-entry {from{transform:scale(1.055)}to{transform:scale(1)}}
+  }
+}
 /* Эскиз и схема работают при выключенном JavaScript. */
 .dir-opening {
   display:grid;align-items:center;gap:clamp(26px,4.5vw,76px);
@@ -737,6 +854,209 @@ html {scroll-padding-top:72px}
   .dir-lead {margin-bottom:26px}
   .dir-process li {padding-left:58px}
 }
+
+/* У эскиза — рабочий лист и фотография, у заявки — световая дорожка. */
+.dir-opening {position:relative;isolation:isolate;gap:clamp(20px,3vw,52px)}
+.dir-web .dir-opening {
+  --bg:var(--bone);--text:var(--steel);--muted:var(--walnut);--dot:var(--blood);
+  background:var(--bg);color:var(--text);color-scheme:light
+}
+.dir-bot .dir-opening {
+  --bg:var(--scarlet);--text:var(--steel);--muted:var(--steel);--dot:var(--steel);
+  background:var(--bg);color:var(--text);color-scheme:light
+}
+.dir-opening .kicker {color:var(--muted);margin-bottom:12px}
+.dir-offer h1 {line-height:.94;margin:0 0 18px;max-width:12ch}
+.dir-offer h1 em {font:italic 400 1.13em/.86 var(--editorial);letter-spacing:-.07em}
+.dir-opening .dir-lead {color:var(--steel);max-width:41ch}
+.dir-opening .cta {color:var(--milk);background:var(--steel)}
+.dir-opening .cta:hover {background:var(--lead);color:var(--milk)}
+.demo {
+  --text:var(--milk);--muted:var(--frost);color-scheme:dark;
+  padding:clamp(13px,1.35vw,22px);border:1px solid var(--lead)
+}
+.demo label {border-radius:100px;border-color:var(--frost);min-width:44px}
+.demo-choice:checked+label {background:var(--scarlet);border-color:var(--scarlet);color:var(--steel)}
+.demo legend,.demo-note {color:var(--linen)}
+.demo-stage {height:clamp(226px,30vw,525px);margin-top:12px}
+.lab-web .demo-stage {
+  background-color:var(--clay);
+  background-image:linear-gradient(90deg,#535a4c22 1px,transparent 1px),linear-gradient(#535a4c22 1px,transparent 1px);
+  background-size:24px 24px
+}
+.lamp-page {
+  width:89%;height:84%;grid-template-columns:.87fr 1.13fr;
+  border:1px solid var(--walnut);border-radius:3px;box-shadow:5px 7px 0 #41463b36
+}
+.lamp-copy {padding:clamp(13px,2.1vw,34px)}
+.lamp-copy span {display:flex;align-items:center;gap:7px}
+.lamp-copy span::before {content:"";width:8px;height:8px;background:currentColor;border-radius:100%}
+.lamp-copy strong {font:italic 400 clamp(2.4rem,5.4vw,6rem)/.87 var(--editorial);letter-spacing:-.067em}
+#maket-uzkij:checked~.demo-stage .lamp-page {border:3px solid var(--steel);border-radius:13px}
+.lab-bot .demo-stage {
+  background-color:var(--night);background-image:radial-gradient(#616852 1px,transparent 1px);
+  background-size:15px 15px;border:1px solid var(--lead)
+}
+.bot-route {width:90%;max-width:640px}
+.route-input,.route-result {border-radius:7px}
+.route-input {background:var(--milk);border-color:var(--milk);color:var(--steel)}
+.route-rule {color:var(--scarlet);border-color:var(--scarlet);background:var(--night)}
+#s-kontaktom:checked~.demo-stage .route-yes,#bez-kontakta:checked~.demo-stage .route-no {
+  background:var(--scarlet);border-color:var(--scarlet);color:var(--night);box-shadow:none
+}
+.route-result span {display:flex;align-items:center;gap:6px}
+.route-result span::before {content:"";width:7px;height:7px;border-radius:50%;border:1px solid}
+#s-kontaktom:checked~.demo-stage .route-yes span::before,#bez-kontakta:checked~.demo-stage .route-no span::before {background:currentColor}
+.dir-formats {border-top:1px solid var(--clay)}
+.dir-formats ul {gap:0}
+.dir-formats li {padding:18px 0;border-color:var(--walnut)}
+.dir-formats li>span {display:flex;align-items:center;gap:8px}
+.dir-formats li>span::before {content:"";width:7px;height:7px;border-radius:50%;background:var(--blood)}
+.dir-process {background:var(--steel)}
+.dir-process li::before {font:italic 400 1.45rem/1 var(--editorial);color:var(--scarlet)}
+@media(min-width:720px) {
+  .dir-formats ul {border-top:1px solid var(--walnut)}
+  .dir-formats li {padding:clamp(14px,2vw,32px);border:0;border-left:1px solid var(--clay)}
+  .dir-formats li:first-child {border:0;padding-left:0}
+  .dir-process>div {position:sticky;top:100px;align-self:start}
+}
+@media(min-width:900px) {
+  .dir-opening {grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);padding-block:clamp(50px,5vw,88px)}
+  .dir-offer h1 {font-size:clamp(60px,6.9vw,132px);margin-block:26px}
+  .dir-offer .kicker {margin-top:0}
+  .dir-offer {padding-right:2vw}
+}
+@media(max-width:540px) {
+  .dir-opening {padding-block:24px}
+  .demo {margin-inline:calc(0px - var(--gutter));padding-inline:var(--gutter);border-inline:0}
+  .dir-web .demo-stage {height:220px}
+  .dir-offer h1 {font-size:clamp(40px,12vw,64px)}
+  .dir-lead {margin-bottom:14px}
+}
+@media(prefers-reduced-motion:no-preference) {
+  .lamp-page {transition:width .28s ease-out,height .28s ease-out}
+  .route-result {transition:background-color .2s,color .2s}
+}
+
+/* Два предметных пространства. Все надписи и переключатели — HTML. */
+.dir-web .dir-opening {
+  --scene:#102646;--scene-ink:#f8f4e7;--signal:#ffc27c;
+  background:radial-gradient(ellipse at 74% 46%,#345881 0%,#193b61 28%,#101f3a 61%,#10182a 97%);
+}
+.dir-bot .dir-opening {
+  --scene:#211633;--scene-ink:#fff2e8;--signal:#ff986c;
+  background:radial-gradient(ellipse at 72% 46%,#58355e 0%,#392746 29%,#251b35 59%,#1a1525 99%);
+}
+.dir-opening.dark {color:var(--scene-ink);color-scheme:dark;--dot:var(--signal)}
+.dir-opening .kicker,.dir-opening .dir-lead {color:var(--scene-ink)}
+.dir-opening .kicker::before {background:var(--signal)}
+.dir-offer h1 em,.dir-offer .word-dot {color:var(--signal)}
+.dir-opening .cta {background:var(--scene-ink);color:var(--scene)}
+.dir-opening .cta:hover {background:var(--signal);color:var(--scene)}
+.dir-opening .demo {border:0;padding:0;color:var(--scene-ink);background:transparent;min-inline-size:0}
+.dir-opening .demo legend,.dir-opening .demo-note {color:var(--scene-ink)}
+.dir-opening .demo legend {max-width:20ch}
+.dir-opening .demo label {color:var(--scene-ink);border-color:#ffffff8a}
+.dir-opening .demo-choice:checked+label {color:var(--scene);background:var(--scene-ink);border-color:var(--scene-ink)}
+.dir-opening .demo-stage {margin-top:12px;border:0;height:clamp(345px,34vw,570px);isolation:isolate}
+.dir-opening .demo-note {border-top:1px solid #ffffff44;margin:0;padding-top:10px}
+.dir-web .demo-stage {
+  display:grid;perspective:1000px;overflow:hidden;background:transparent;
+  background-image:radial-gradient(ellipse farthest-side at 48% 52%,#f1bd7f30,transparent 88%)
+}
+.lab-web .demo-stage::before,.lab-web .demo-stage::after {
+  content:"";position:absolute;pointer-events:none;z-index:-1;aspect-ratio:1;border:1px solid #ffd5aa80;border-radius:50%;
+  height:135%;left:16%;top:-18%;transform:rotateY(32deg) rotateZ(-8deg)
+}
+.lab-web .demo-stage::after {height:102%;top:-2%;left:28%;border-style:dashed;border-color:#ffd5aa60}
+.lab-web .lamp-page {
+  position:relative;display:block;width:77%;height:79%;overflow:hidden;border:1px solid #ffe3bd;border-radius:1px;
+  background:#122237;transform:rotateY(-16deg) rotateX(6deg) rotateZ(-7deg);
+  box-shadow:5px 6px 0 #26374b,6px 7px 0 #e8d1aa,12px 13px 0 #223246,13px 14px 0 #9fa8ac,20px 21px 0 #162539
+}
+.lab-web .lamp-page img {
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 38%
+}
+.lab-web .lamp-copy {
+  position:absolute;z-index:1;inset:0;display:flex;justify-content:space-between;align-items:flex-start;
+  color:#fff8e9;padding:clamp(13px,2vw,30px);background:linear-gradient(0deg,#071629c7,transparent 48%)
+}
+.lab-web .lamp-copy span {font-size:clamp(12px,1vw,16px)}
+.lab-web .lamp-copy strong {font-size:clamp(46px,5.6vw,98px);line-height:.8}
+#maket-uzkij:checked~.demo-stage .lamp-page {height:87%;width:35%;max-width:215px;transform:rotateY(6deg) rotateZ(4deg);border:3px solid #f2ddc1}
+#maket-uzkij:checked~.demo-stage .lamp-copy {padding:11px;gap:0}
+#maket-uzkij:checked~.demo-stage .lamp-copy strong {font-size:clamp(29px,3.5vw,53px)}
+.dir-bot .lab-bot .demo-stage {
+  background:radial-gradient(ellipse at center,#75507635,transparent 70%);overflow:hidden
+}
+.lab-bot .bot-route {position:relative;display:block;isolation:isolate;width:100%;max-width:none;height:100%}
+.signal-scene {position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.signal-scene .wire {stroke:#a9a0ba;stroke-opacity:.48;stroke-width:1;stroke-dasharray:1.5 1.4}
+.signal-scene .packet {display:none;stroke:#ffe4ba;stroke-width:6;stroke-dasharray:6 94}
+#s-kontaktom:checked~.demo-stage .wire-yes,#bez-kontakta:checked~.demo-stage .wire-no {
+  stroke:var(--signal);stroke-width:3;stroke-dasharray:none;stroke-opacity:1
+}
+.lab-bot .route-input,.lab-bot .route-rule,.lab-bot .route-fork {position:absolute;z-index:1;margin:0}
+.lab-bot .route-input {
+  left:19.833%;top:20%;transform:translate(-50%,-100%);min-width:0;padding:6px 10px 7px;background:#30233b;color:var(--scene-ink);
+  border:1px solid #af97ae;border-radius:0
+}
+.lab-bot .route-input strong {font-size:clamp(16px,1.75vw,30px)}
+.lab-bot .route-rule {
+  top:63%;left:50%;transform:translate(-50%,-50%);padding:4px 12px;white-space:nowrap;
+  background:#302039;color:var(--scene-ink);border:1px solid var(--signal);border-radius:100px
+}
+.lab-bot .route-rule::before,.lab-bot .route-rule::after,.lab-bot .route-result::before {display:none}
+.lab-bot .route-fork {inset:auto 2% 2%;width:auto;gap:5%}
+.lab-bot .route-result {border-radius:0;border:1px solid #aa91b5;color:#eadbec;background:#31243e;padding:8px 12px}
+.lab-bot .route-result strong {font-size:clamp(16px,1.6vw,27px)}
+#s-kontaktom:checked~.demo-stage .route-yes,#bez-kontakta:checked~.demo-stage .route-no {color:#251829;background:var(--signal);border-color:var(--signal)}
+@media(prefers-reduced-motion:no-preference) {
+  .lab-web .lamp-page {transition:width .48s cubic-bezier(.2,.8,.2,1),height .48s,transform .48s}
+  #s-kontaktom:checked~.demo-stage .packet-yes,#bez-kontakta:checked~.demo-stage .packet-no {
+    display:block;animation:route-pulse 1.75s ease-out 2 both
+  }
+  @keyframes route-pulse {0%{stroke-dashoffset:7;opacity:0}12%{opacity:1}86%{opacity:1}100%{stroke-dashoffset:-95;opacity:0}}
+}
+@media(min-width:900px) {
+  /* При прокрутке браузер переносит готовую сцену вместе с тенями печатного макета. */
+  .dir-web .dir-opening {will-change:transform}
+  .dir-opening {grid-template-columns:minmax(0,.83fr) minmax(0,1.17fr);gap:clamp(20px,3vw,56px);padding-block:clamp(42px,5.5vw,125px)}
+  .dir-offer h1 {font-size:clamp(65px,7.9vw,155px);letter-spacing:-.077em;max-width:10ch}
+  .dir-offer {padding:0}
+}
+@media(max-width:759px) {
+  .dir-opening {grid-template-columns:minmax(0,1fr);align-items:start;gap:0;padding-block:17px 22px}
+  .dir-offer {display:contents}
+  .dir-opening .kicker {grid-row:1;margin:0 0 8px}
+  .dir-offer h1 {grid-row:2;font-size:clamp(44px,13vw,78px);margin:0 0 14px;max-width:12ch}
+  .dir-opening .demo {grid-row:3;margin:0}
+  .dir-opening .demo legend {display:flex;align-items:center;float:left;width:30%;max-width:13ch;min-height:43px;margin:0;text-align:left}
+  .dir-opening .demo {text-align:right}
+  .dir-opening .demo label {padding-inline:9px}
+  .dir-opening .demo-stage {height:clamp(195px,28svh,310px);margin-top:5px}
+  .dir-opening .demo-note {padding-top:5px;font-size:.8125rem}
+  .dir-opening .dir-lead {grid-row:4;margin:15px 0 12px}
+  .dir-opening .dir-offer .cta {grid-row:5;justify-self:start}
+  .lab-bot .route-result {padding:5px 8px}
+  .lab-bot .route-fork {inset-inline:0}
+  .lab-bot .route-rule {top:62%;font-size:.75rem}
+  .lab-bot .route-input {padding:3px 7px}
+  .lab-web .lamp-page {width:78%;height:78%}
+}
+@media(max-width:349px) {
+  .dir-opening .demo legend {font-size:.75rem;width:26%}
+  .dir-opening .demo label {font-size:.8125rem}
+}
+
+.relay-switch {transform-origin:300px 145px;transform:rotate(-8deg)}
+#bez-kontakta:checked~.demo-stage .relay-switch {transform:rotate(19deg)}
+@media(prefers-reduced-motion:no-preference) {
+  html:not([data-calm]) .relay-switch {transition:transform .65s cubic-bezier(.2,.8,.2,1)}
+  html:not([data-calm]) .lab-web .lamp-page {animation:lamp-arrives 1.2s cubic-bezier(.18,.8,.2,1)}
+  @keyframes lamp-arrives {from{translate:2% 7%;rotate:4deg;scale:.87}to{translate:0;rotate:0deg;scale:1}}
+}
+html[data-calm] .lab-bot .packet {display:none}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "@id": "https://alek5andr25.github.io/#ya", "name": "Александр Кутняк", "jobTitle": "Продюсер роликов", "url": "https://alek5andr25.github.io/", "sameAs": ["https://t.me/alexanderkutnyak"]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Service", "name": "Сайты: разработка и дизайн", "description": "Делаю сайты для бизнеса и экспертов. Продумываю структуру, рисую и верстаю страницы. Для начала покажу первый экран под вашу задачу.", "provider": {"@id": "https://alek5andr25.github.io/#ya"}, "url": "https://alek5andr25.github.io/sajty/"}</script>
@@ -746,9 +1066,9 @@ html {scroll-padding-top:72px}
 <body>
 <header class="site-head"><a class="signature" href="/">Александр Кутняк<span class="word-dot" aria-hidden="true">.</span></a>
       <nav class="direction-nav" aria-label="Направления"><a href="/" aria-label="Ролики и ИИ-видео">Ролики<span> и ИИ-видео</span></a><a href="/sajty/" aria-label="Сайты" aria-current="page">Сайты<span></span></a><a href="/boty-i-avtomatizaciya/" aria-label="Боты и автоматизация">Боты<span> и автоматизация</span></a></nav></header>
-<main class="direction-page">
+<main class="direction-page dir-web">
 <section class="dir-opening dark" data-dock-top><div class="dir-offer"><p class="kicker">Разработка и дизайн</p>
-  <h1>Сайт под вашу задачу<span class="word-dot" aria-hidden="true">.</span></h1><p class="dir-lead">Делаю сайты, на которых легко выбрать товар, разобраться в услуге или записаться к вам. Начну с первого экрана — вы увидите, как выглядит ваше предложение.</p><a class="cta" href="https://t.me/alexanderkutnyak?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D0%BF%D0%B5%D1%80%D0%B2%D1%8B%D0%B9%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%20%D1%81%D0%B0%D0%B9%D1%82%D0%B0.%20%D0%9C%D0%BE%D0%B9%20%D1%82%D0%BE%D0%B2%D0%B0%D1%80%20%D0%B8%D0%BB%D0%B8%20%D1%83%D1%81%D0%BB%D1%83%D0%B3%D0%B0%3A%20" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.7.8l-4.8-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2l-11 6.9-4.7-1.5c-1-.3-1-1 .2-1.5l18.5-7.1c.9-.3 1.6.2 1.4 1.2Z"/></svg>Обсудить первый экран</a></div>
+  <h1>Сайт под вашу <em>задачу</em><span class="word-dot" aria-hidden="true">.</span></h1><p class="dir-lead">Делаю сайты, на которых легко выбрать товар, разобраться в услуге или записаться к вам. Начну с первого экрана — вы увидите, как выглядит ваше предложение.</p><a class="cta" href="https://t.me/alexanderkutnyak?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D0%BF%D0%B5%D1%80%D0%B2%D1%8B%D0%B9%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%20%D1%81%D0%B0%D0%B9%D1%82%D0%B0.%20%D0%9C%D0%BE%D0%B9%20%D1%82%D0%BE%D0%B2%D0%B0%D1%80%20%D0%B8%D0%BB%D0%B8%20%D1%83%D1%81%D0%BB%D1%83%D0%B3%D0%B0%3A%20" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.7.8l-4.8-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2l-11 6.9-4.7-1.5c-1-.3-1-1 .2-1.5l18.5-7.1c.9-.3 1.6.2 1.4 1.2Z"/></svg>Обсудить первый экран</a></div>
   <fieldset class="demo lab-web"><legend>Эскиз страницы светильника</legend>
       <input class="demo-choice" type="radio" id="maket-shirokij" name="maket" checked><label for="maket-shirokij">Компьютер</label>
       <input class="demo-choice" type="radio" id="maket-uzkij" name="maket"><label for="maket-uzkij">Телефон</label>
@@ -774,6 +1094,6 @@ html {scroll-padding-top:72px}
       <a class="cta" href="https://t.me/alexanderkutnyak?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D0%BF%D0%B5%D1%80%D0%B2%D1%8B%D0%B9%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%20%D1%81%D0%B0%D0%B9%D1%82%D0%B0.%20%D0%9C%D0%BE%D0%B9%20%D1%82%D0%BE%D0%B2%D0%B0%D1%80%20%D0%B8%D0%BB%D0%B8%20%D1%83%D1%81%D0%BB%D1%83%D0%B3%D0%B0%3A%20" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.7.8l-4.8-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2l-11 6.9-4.7-1.5c-1-.3-1-1 .2-1.5l18.5-7.1c.9-.3 1.6.2 1.4 1.2Z"/></svg>Обсудить первый экран</a><div class="handle">@alexanderkutnyak</div></div></div></section>
 </main><footer class="foot"><nav class="fnav" aria-label="Разделы"><a href="/">Главная</a><a href="/roliki-pod-klyuch/">Ролики под ключ</a><a href="/reklama-tovarov/">Реклама товаров</a><a href="/razvitie-kanala/">Развитие и рост канала</a><a href="/sajty/">Сайты: разработка и дизайн</a><a href="/boty-i-avtomatizaciya/">Боты и автоматизация</a><a href="/raboty/">Работы</a></nav><div class="fline"><span>Александр Кутняк</span><span>2026</span></div></footer><div class="dock" id="dock"><a class="cta" href="https://t.me/alexanderkutnyak?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D0%BF%D0%B5%D1%80%D0%B2%D1%8B%D0%B9%20%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%20%D1%81%D0%B0%D0%B9%D1%82%D0%B0.%20%D0%9C%D0%BE%D0%B9%20%D1%82%D0%BE%D0%B2%D0%B0%D1%80%20%D0%B8%D0%BB%D0%B8%20%D1%83%D1%81%D0%BB%D1%83%D0%B3%D0%B0%3A%20" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.7.8l-4.8-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2l-11 6.9-4.7-1.5c-1-.3-1-1 .2-1.5l18.5-7.1c.9-.3 1.6.2 1.4 1.2Z"/></svg>Обсудить первый экран</a></div>
 <script>window.S={"tg":"alexanderkutnyak","m":"/r/","t":{"tak":"Здравствуйте, Александр! Мне понравился пример «{rabota}» ({format}). Хочу обсудить ролик для "},"raboty":[],"media":{}}</script>
-<script src="/k/sajt.bf5de61a.js" defer></script>
+<script src="/k/sajt.cc701c1d.js" defer></script>
 </body>
 </html>

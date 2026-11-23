@@ -18,15 +18,24 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#03060A">
+<meta name="theme-color" content="#171815">
 <link rel="icon" href="/znachok.svg" type="image/svg+xml">
 <link rel="preload" href="/s/inter-display-800.c15480d4.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
 <link rel="preload" href="/s/inter-400.d362fe16.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-<style>/* c202. Палитра «Кино»; Inter — разрешённый временный шрифт, не утверждённый выбор блога. */
+<style>/* Локальные шрифты, бумага и графит. Светлый сигнальный цвет — для действия на тёмном. */
 @font-face{font-family:'Inter Display';src:url(/s/inter-display-800.c15480d4.woff2) format('woff2');font-weight:800 900;font-display:swap}
 @font-face{font-family:Inter;src:url(/s/inter-400.d362fe16.woff2) format('woff2');font-weight:400 500;font-display:swap}
 @font-face{font-family:Inter;src:url(/s/inter-600.435c446b.woff2) format('woff2');font-weight:600 700;font-display:swap}
-:root{--night:#03060A;--steel:#080F16;--graphite:#121C24;--lead:#242F39;--frost:#A7B3BD;--milk:#FEFBF5;--bone:#F5F1E8;--linen:#E8E1D6;--clay:#CFC6B9;--walnut:#695E55;--blood:#B61A24;--scarlet:#F12629;--wine:#6B0A17;--bg:var(--bone);--text:var(--steel);--muted:var(--walnut);--line:var(--clay);--dot:var(--blood);--display:'Inter Display',Arial,sans-serif;--body:Inter,Arial,sans-serif;--gutter:max(clamp(16px,3.125vw,96px),env(safe-area-inset-left),env(safe-area-inset-right));--grid-gap:clamp(12px,1.4vw,32px);color-scheme:light}
+:root {
+  --night:#171815;--steel:#1d201b;--graphite:#252822;--lead:#41463b;--frost:#bec4b7;
+  --milk:#fbf8ee;--bone:#f0eee4;--linen:#dedfd3;--clay:#c0c3b5;--walnut:#535a4c;
+  --blood:#4a5c1b;--scarlet:#def36b;--wine:#384514;
+  --bg:var(--bone);--text:var(--steel);--muted:var(--walnut);--line:var(--clay);--dot:var(--blood);
+  --display:'Inter Display',Arial,sans-serif;--body:Inter,Arial,sans-serif;
+  --editorial:Georgia,'Times New Roman',serif;
+  --gutter:max(clamp(16px,3.125vw,96px),env(safe-area-inset-left),env(safe-area-inset-right));
+  --grid-gap:clamp(12px,1.4vw,32px);color-scheme:light
+}
 *{box-sizing:border-box;margin:0;padding:0}
 [hidden]{display:none!important}
 html{scroll-behavior:smooth;scroll-padding-top:20px}
@@ -618,6 +627,114 @@ html {scroll-padding-top:72px}
 .story-directions {grid-area:auto;justify-content:space-between;gap:4px;border:0;border-bottom:1px solid var(--lead)}
 .story-directions a {padding:12px 4px;min-height:44px;font-size:.875rem;text-decoration:none}
 .story-directions a span {display:none}
+
+/* Обложка ролика рядом с тремя движущимися лентами. */
+.cut-hero {padding-bottom:clamp(24px,4vw,58px)}
+.hero-layout {gap:16px}
+.hero-title {padding-top:clamp(22px,3.1vw,56px)}
+.title-word {font-size:clamp(78px,28vw,158px);line-height:.8;letter-spacing:-.067em}
+.title-subject {font:italic 400 clamp(23px,6.4vw,42px)/1.08 var(--editorial);letter-spacing:-.045em}
+.wall-frame:has(>.tile) {
+  display:grid;grid-template-columns:minmax(0,2.5fr) minmax(0,1fr);gap:3px;
+  height:clamp(238px,33svh,390px);margin:0;background:var(--night)
+}
+.wall-frame>.tile {height:100%;aspect-ratio:auto;border-radius:0;isolation:isolate}
+.wall-frame>.tile :is(img,video) {object-position:50% 7%}
+.wall-frame>.tile:focus-visible {outline-offset:-4px}
+.wall-frame:has(>.tile) .wall {
+  position:relative;grid-template:repeat(3,minmax(0,1fr))/minmax(0,1fr);gap:3px;
+}
+.wall-frame:has(>.tile) .wall .tile {aspect-ratio:1.4}
+.wall-frame:has(>.tile) .wall .cap {padding:16px 6px 4px}
+.cover-play {
+  position:absolute;bottom:clamp(12px,1.8vw,26px);right:clamp(12px,1.8vw,26px);
+  width:clamp(42px,4.6vw,70px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;
+  color:var(--steel);background:var(--scarlet);pointer-events:none
+}
+.cover-play::after {content:"";border:8px solid transparent;border-left:13px solid currentColor;border-right:0;margin-left:3px}
+.hero .hero-offer .lead {max-width:39ch;margin-bottom:16px}
+.hero .cta,.dir-opening .cta,.contact-end .cta,.dock .cta {background:var(--scarlet);color:var(--steel)}
+:is(.hero,.dir-opening,.contact-end,.dock) .cta:hover {background:var(--milk);color:var(--night)}
+.cta {border-radius:100px}
+.result-band {background:var(--scarlet);color:var(--steel);border:0}
+.result-band .metric span {color:inherit;font:italic 400 .58em/1 var(--editorial)}
+.result-band p {max-width:18ch}
+@media(max-width:619px) {
+  .result-band>div {flex:0 0 43%}
+  .result-band p {max-width:none;min-height:2.44em}
+}
+.kicker {letter-spacing:.018em}
+.kicker::before {width:10px;height:10px;border-radius:50%}
+.feature-trial,.feature-trial#cena {--bg:var(--scarlet);--text:var(--steel);--muted:var(--steel);--line:var(--blood)}
+.feature-trial .cta {background:var(--steel);color:var(--milk)}
+.feature-trial .cta:hover {background:var(--milk);color:var(--steel)}
+.feature-trial .trial-road li {border-color:var(--blood)}
+.study {background:var(--steel)}
+.study-intro .kicker,.formats .kicker {color:var(--scarlet)}
+.ai-films h3,.contact-end .fbig {font:italic 400 clamp(2.8rem,6.8vw,7.4rem)/.98 var(--editorial);letter-spacing:-.055em}
+.ai-films figure .tile {border-radius:0}
+.ai-films>div {align-items:start}
+.direction-list a {grid-template-columns:1fr auto;column-gap:16px}
+.direction-list a span {grid-column:1}
+.direction-list a::after {
+  content:"";width:13px;height:13px;border-top:2px solid;border-right:2px solid;
+  grid-column:2;grid-row:1/3;align-self:center;margin-right:8px
+}
+.detail-layout>.player {position:relative;border:1px solid var(--lead)}
+@media(max-width:759px) {
+  .ai-films>div {
+    display:flex;overflow-x:auto;gap:12px;margin-inline:calc(0px - var(--gutter));
+    padding:0 var(--gutter) 16px;scroll-padding-inline:var(--gutter);
+    scroll-snap-type:x mandatory;scrollbar-color:var(--frost) var(--graphite);scrollbar-width:thin
+  }
+  .ai-films figure {flex:0 0 78%;scroll-snap-align:start;min-width:0}
+  .ai-films figure .tile,.ai-films figure:first-child .tile {aspect-ratio:4/5}
+}
+@media(min-width:760px) {
+  .ai-films>div {grid-template-columns:1.1fr 1fr .9fr;gap:clamp(14px,2vw,34px)}
+  .ai-films figure:nth-child(2) {padding-top:5vw}
+  .ai-films figure:nth-child(3) {padding-top:10vw}
+  .ai-films figure .tile,.ai-films figure:first-child .tile {aspect-ratio:4/5}
+}
+@media(min-width:900px) {
+  .cut-hero {padding-block:clamp(22px,3.3vw,60px)}
+  .hero-layout {grid-template-columns:minmax(0,.83fr) minmax(0,1.17fr);grid-template-rows:1fr auto;gap:28px var(--gutter)}
+  .hero-title {grid-area:1/1;align-self:center;padding:0}
+  .title-word {font-size:clamp(104px,12.45vw,268px)}
+  .title-subject {font-size:clamp(30px,3.3vw,66px);margin-top:.5em}
+  .hero-offer {grid-area:2/1;align-self:end;border-top:1px solid var(--lead);padding:clamp(16px,2vw,32px) 0 0}
+  .hero .hero-offer .lead {font-size:clamp(17px,1.45vw,24px);margin-bottom:22px}
+  .wall-frame:has(>.tile) {grid-area:1/2/3/3;height:clamp(450px,67svh,840px);gap:5px;grid-template-columns:minmax(0,2.3fr) minmax(0,1fr)}
+  .wall-frame:has(>.tile) .wall {gap:5px}
+  .wall-frame:has(>.tile) .wall .cap {padding:24px 10px 8px}
+  .result-band {justify-content:space-between}
+  .result-band p {font-size:clamp(22px,2.8vw,44px)}
+  .study {margin-inline:calc(0px - var(--gutter));padding-inline:var(--gutter)}
+  .study-intro {position:sticky;top:108px;align-self:start}
+  .study .tile {aspect-ratio:3/4}
+  .study-films figure:last-child {padding-top:clamp(28px,5vw,84px)}
+  .detail-layout>.player {background:repeating-linear-gradient(90deg,var(--graphite) 0 31px,var(--lead) 31px 32px)}
+}
+@media(hover:hover) and (prefers-reduced-motion:no-preference) {
+  .cover-play,.format-piece .cap::after,.direction-list a::after {transition:transform .22s ease-out}
+  .wall-frame>.tile:hover .cover-play,.format-piece .tile:hover .cap::after {transform:scale(1.09)}
+  .direction-list a:hover::after {transform:translate(3px,-3px)}
+}
+@media(min-width:370px) and (max-width:619px) {
+  .hero .hero-offer .cta {flex:none;padding-inline:16px}
+  .hero-offer .hero-actions {gap:8px}
+}
+
+/* При входе кадр мягко раскрывается внутри своего прямоугольника. */
+@supports (animation-timeline:view()) {
+  @media(prefers-reduced-motion:no-preference) {
+    html:not([data-calm]) :is(.study-films,.ai-films) .tile {view-timeline-name:--film}
+    html:not([data-calm]) :is(.study-films,.ai-films) .tile :is(.zast,video) {
+      animation:film-entry linear both;animation-timeline:--film;animation-range:entry 0% entry 100%
+    }
+    @keyframes film-entry {from{transform:scale(1.055)}to{transform:scale(1)}}
+  }
+}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Service", "name": "Рекламные ролики для товаров", "description": "Рекламный ролик для товара: живые сцены и 3D. Несколько вариантов одной рекламы — для карточки товара, рекламы и соцсетей. Начнём с ролика на пробу.", "provider": {"@id": "https://alek5andr25.github.io/#ya"}, "areaServed": "RU", "url": "https://alek5andr25.github.io/reklama-tovarov/"}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "@id": "https://alek5andr25.github.io/#ya", "name": "Александр Кутняк", "jobTitle": "Продюсер роликов", "url": "https://alek5andr25.github.io/", "sameAs": ["https://t.me/alexanderkutnyak"]}</script>
@@ -654,6 +771,6 @@ html {scroll-padding-top:72px}
 </main><footer class="foot"><nav class="fnav" aria-label="Разделы"><a href="/">Главная</a><a href="/roliki-pod-klyuch/">Ролики под ключ</a><a href="/reklama-tovarov/">Реклама товаров</a><a href="/razvitie-kanala/">Развитие и рост канала</a><a href="/sajty/">Сайты: разработка и дизайн</a><a href="/boty-i-avtomatizaciya/">Боты и автоматизация</a><a href="/raboty/">Работы</a></nav><div class="fline"><span>Александр Кутняк</span><span>2026</span></div></footer><div class="dock" id="dock"><a class="cta" href="https://t.me/alexanderkutnyak?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BF%D0%BE%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D1%8C%20%D1%82%D0%BE%D0%B2%D0%B0%D1%80%20%D0%B2%20%D1%80%D0%BE%D0%BB%D0%B8%D0%BA%D0%B5.%20%D0%92%D0%BE%D1%82%20%D1%87%D1%82%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D1%8E%20%D0%B8%D0%BB%D0%B8%20%D1%81%D1%81%D1%8B%D0%BB%D0%BA%D0%B0%20%D0%BD%D0%B0%20%D0%BA%D0%B0%D1%80%D1%82%D0%BE%D1%87%D0%BA%D1%83%3A%20" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.7.8l-4.8-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2l-11 6.9-4.7-1.5c-1-.3-1-1 .2-1.5l18.5-7.1c.9-.3 1.6.2 1.4 1.2Z"/></svg>Обсудить мой товар</a></div>
 <script>window.S={"tg":"alexanderkutnyak","m":"/r/","t":{"tak":"Здравствуйте, Александр! Мне понравился пример «{rabota}» ({format}). Хочу обсудить ролик для "},"raboty":[{"i":"med1","f":"3D-анимация","n":"Клиника: объяснили лечение"},{"i":"med2","f":"3D-анимация","n":"Приложение: реклама в 3D"},{"i":"med3","f":"3D-анимация","n":"Как работает приложение"},{"i":"ii-duga","f":"Предметная реклама","n":"Тёплая дуга"},{"i":"ii-poluteni","f":"Ролик о моде","n":"Полутени"}],"media":{"med1":["/r/med1.0dffa7c1.mp4","/r/med1.bd62991b.jpg"],"med2":["/r/med2.4e1a0f01.mp4","/r/med2.36da9bc2.jpg"],"med3":["/r/med3.4a83f22a.mp4","/r/med3.e66c438e.jpg"],"ii-duga":["/r/ii-duga.0a3d272c.mp4","/r/ii-duga.8f55a24a.jpg"],"ii-poluteni":["/r/ii-poluteni.fae0ba99.mp4","/r/ii-poluteni.a1870dcf.jpg"]}}</script>
 <script src="/k/storis.a4fc6627.js" defer></script>
-<script src="/k/sajt.bf5de61a.js" defer></script>
+<script src="/k/sajt.cc701c1d.js" defer></script>
 </body>
 </html>
