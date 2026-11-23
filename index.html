@@ -121,12 +121,18 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid cur
 .player{aspect-ratio:9/16;margin:0 0 28px;width:min(100%,36svh,338px);overflow:hidden;background:var(--graphite)}.player video{width:100%;height:100%;object-fit:contain;display:block}
 .facts{list-style:none;margin-bottom:28px;max-width:650px}.facts li{display:flex;gap:16px;padding:16px 0;border-top:1px solid var(--line);font-size:14px;line-height:1.6}.facts b{width:88px;flex:none;color:var(--muted);font-weight:400}
 /* главная 23.11: метод, виды роликов, лесенка, «Ещё делаю»; страница картинок */
-.shagi{list-style:none;display:grid;margin:8px 0 28px}
-.shagi li{display:grid;grid-template-columns:52px 1fr;column-gap:14px;row-gap:6px;padding:22px 0;border-top:1px solid var(--line)}
-.shagi .n{grid-row:span 2;font:800 30px/1 var(--display);letter-spacing:-1px;color:var(--muted)}
+.shagi{list-style:none;display:grid;margin:0 0 26px;counter-reset:shag}
+.shagi li{counter-increment:shag;position:relative;display:grid;gap:6px;padding:16px 0 16px 38px;border-top:1px solid var(--line)}
+.shagi li::before{content:counter(shag,decimal-leading-zero);position:absolute;top:18px;left:0;font-size:13px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
 .shagi b{font:800 21px/1.15 var(--display);letter-spacing:-.5px}
-.shagi li>span:last-child{font-size:14px;line-height:1.6;color:var(--muted);max-width:40ch}
-.primer{font-size:15px;line-height:1.65;background:var(--linen);padding:18px 20px;max-width:62ch;border-left:3px solid var(--dot)}
+.shagi li>span:last-child{font-size:1rem;line-height:1.5;color:var(--muted);max-width:42ch}
+.priem{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);background:var(--steel);color:var(--milk);overflow:hidden;text-decoration:none;border-radius:3px}
+.priem img{display:block;width:100%;height:100%;min-height:0;object-fit:cover;object-position:52% 46%}
+.priem-copy{align-self:center;padding:clamp(16px,2.2vw,36px)}
+.rubrika{display:block;color:var(--frost);font-size:.875rem;font-weight:600;margin-bottom:12px}
+.priem h3{font:800 clamp(22px,2.2vw,36px)/1.07 var(--display);letter-spacing:-.035em}
+.priem p{font-size:1rem;line-height:1.5;color:var(--frost);margin:12px 0 18px}
+.smotret{font-size:.9rem;font-weight:600;text-decoration:underline;text-underline-offset:5px}
 .vgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 12px}
 .vid{display:flex;flex-direction:column;gap:8px;min-width:0}
 .vid .tile{aspect-ratio:4/5}.vid .tile .cap{display:none}
@@ -148,7 +154,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid cur
 .gal{display:grid;gap:22px}.gal figure{margin:0}
 .gal img{display:block;width:100%;height:auto;border-radius:2px;background:var(--linen)}
 .gal figcaption{font-size:12px;line-height:1.5;color:var(--muted);margin-top:8px}
-@media(min-width:700px){.shagi{grid-template-columns:repeat(4,minmax(0,1fr));gap:0 28px}.shagi li{display:flex;flex-direction:column;gap:12px;border-top:3px solid var(--text);padding-top:20px}.shagi .n{font-size:40px}
+@media(min-width:700px){.shagi{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 24px}.shagi li{align-content:start;padding:40px 0 18px}.shagi li::before{top:12px}
 .vgrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:40px 24px}.vid h3{font-size:22px}.vid p{font-size:14px}
 .lesenka{grid-template-columns:repeat(3,minmax(0,1fr));align-items:end;gap:16px}.lesenka .st1{min-height:230px}.lesenka .st2{min-height:280px}.lesenka .st3{min-height:330px}
 .elist{grid-template-columns:repeat(3,minmax(0,1fr));gap:0 32px}.gal{grid-template-columns:1fr 1fr;gap:32px 24px}}
@@ -234,7 +240,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid cur
 }
 @media(min-width:1000px){
   .metod,.vidy,#cena{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);column-gap:var(--gutter);align-items:end}
-  :is(.metod,.vidy,#cena)>*{grid-column:1/-1}
+  :where(.metod,.vidy,#cena)>*{grid-column:1/-1}
   :is(.metod,.vidy,#cena)>.h2{grid-column:1;margin-bottom:clamp(26px,3.2vw,60px)}
   :is(.metod,.vidy,#cena)>.sub{grid-column:2;max-width:44ch;margin-bottom:clamp(26px,3.2vw,60px)}
   .vid h3,.lesenka b,.shagi b{font-size:clamp(21px,1.6vw,30px)}
@@ -259,6 +265,46 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid cur
   .gallery-intro .tabs{display:grid;grid-template-columns:1fr 1fr;gap:5px}
   .gallery-intro .tabs button{padding:8px 6px}
 }
+
+.hero .big{margin-top:0}
+.hero .lead{color:var(--linen);font-size:clamp(1rem,1.25vw,1.3rem)}
+.hero-actions{align-items:center;gap:clamp(14px,2vw,32px)}
+.hero-actions .cta{flex:0 1 15rem}
+.hero-actions .hero-works{margin:0;white-space:nowrap;text-decoration:underline;text-underline-offset:5px}
+.hero .hero-tools{align-items:center;gap:2px 18px;margin-top:18px}
+.hero .proof{align-items:center;gap:8px;padding-left:12px;border-left:2px solid var(--dot);font-size:.875rem}
+.hero .proof b{font-size:clamp(1.2rem,1.5vw,1.5rem);white-space:nowrap}
+.hero .proof span{max-width:15ch;line-height:1.25}
+.hero .live{font-size:.875rem}
+.metod .sub,.vidy .sub,#cena .sub,.otvas,.service-copy .lead{font-size:clamp(1rem,1.25vw,1.25rem)}
+.vid p,.lesenka li>span:not(.mera){font-size:1rem}
+.vid .tile{overflow:hidden}
+.reel-caption{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--muted);font-size:.875rem}
+.reel-caption .more{color:var(--text)}
+.sostav .incl li{padding-block:20px}
+.sostav .incl span{font-size:1rem}
+.txt.dark{background:var(--graphite)}
+.esche{background:var(--linen);padding-block:clamp(38px,4.8vw,80px)}
+.detail-title .rubrika{margin-bottom:10px}
+#cena .otvas{margin-bottom:0;max-width:52ch}
+@media(min-width:700px){
+  .priem{grid-template-columns:minmax(0,.65fr) minmax(0,1.35fr);min-height:225px}
+  .priem img{max-height:320px}
+}
+@media(min-width:1000px){
+  .metod>.shagi{grid-column:1;margin:0;align-self:stretch}
+  .metod>.priem{grid-column:2;align-self:stretch}
+  .metod .shagi li>span:last-child{font-size:1rem}
+  .sostav{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:var(--gutter);align-items:start}
+  .sostav>.h2{max-width:15ch}
+}
+@media(min-width:1000px) and (min-height:600px){
+  .hero .bottom{top:52%;bottom:auto;transform:translateY(-48%);padding-bottom:0}
+}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+  .vid .zast,.priem img{transition:transform .22s ease-out}
+  .vid .tile:hover .zast,.priem:hover img{transform:scale(1.025)}
+}
 @media(orientation:landscape) and (max-height:520px){
   .hero{min-height:100svh;height:auto}
   .hero .wall{left:46%}
@@ -275,85 +321,301 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid cur
   .st-foot{flex-wrap:wrap;justify-content:center}
   .st-cta{flex-basis:100%;margin:3px 0 0}
 }
+
+/* Главная и три услуги. Все краски и оба начертания — из палитры «Кино». */
+.cut-hero {
+  min-height:0;height:auto;overflow:hidden;
+  padding:0 var(--gutter) clamp(24px,4.2vw,70px);
+}
+.masthead,.masthead nav,.hero-actions,.film-caption,.format-links {
+  display:flex;align-items:center;
+}
+.masthead {
+  justify-content:space-between;gap:14px;min-height:64px;
+  padding-top:env(safe-area-inset-top);border-bottom:1px solid var(--lead);
+}
+.signature {font:800 clamp(1rem,1.6vw,1.65rem)/1.1 var(--display);letter-spacing:-.045em}
+.signature .word-dot {font-size:1.4em}
+.masthead nav {gap:clamp(12px,2vw,32px)}
+.masthead a {display:flex;align-items:center;min-height:44px;color:var(--linen);font-size:.875rem;text-decoration:none}
+.masthead a:hover,.format-links a:hover {text-decoration:underline;text-underline-offset:5px}
+.hero-layout {display:grid;gap:20px}
+.hero-title {padding:clamp(20px,3.2vw,52px) 0 0;font:inherit}
+.title-word {display:block;margin-left:-.055em;font:800 clamp(72px,29vw,158px)/.83 var(--display);letter-spacing:-.08em}
+.title-subject {display:block;margin:.4em 0 0;font:800 clamp(23px,6.3vw,38px)/1.02 var(--display);letter-spacing:-.05em}
+.wall-frame {
+  position:relative;min-width:0;height:clamp(205px,27svh,320px);
+  margin-inline:calc(0px - var(--gutter));background:var(--graphite);overflow:hidden;
+}
+.cut-hero .wall {inset:0;gap:4px;padding:0;overflow:hidden}
+.cut-hero .col {min-height:0;min-width:0}
+.cut-hero .track {gap:4px;padding-bottom:4px}
+.cut-hero .wall .tile {aspect-ratio:9/13;border-radius:0}
+.cut-hero .wall .cap {padding:24px 7px 9px}
+.cut-hero .wall .cap i {font-size:.75rem}
+.tile[data-src] video {opacity:0;pointer-events:none}
+.tile[data-src] video.playing {opacity:1}
+.hero-offer .lead {color:var(--linen);max-width:44ch;margin:0 0 16px;font-size:1rem;line-height:1.5}
+.hero-offer .hero-actions {gap:10px 16px;flex-wrap:wrap}
+.hero-offer .cta,.service-copy>.cta,.trial-offer>.cta,.contact-copy>.cta {flex:none;width:fit-content;min-height:52px;padding-inline:20px}
+.motion-control {
+  display:inline-flex;align-items:center;gap:7px;min-height:44px;min-width:44px;
+  font:400 .8125rem/1.2 var(--body);text-align:left;color:var(--muted);
+  border:0;background:transparent;cursor:pointer;
+}
+.motion-control::before {content:"";width:8px;height:10px;border-inline:2px solid currentColor;flex:none}
+.motion-control[data-stopped]::before {width:0;height:0;border:5px solid transparent;border-left:8px solid currentColor;border-right:0}
+.motion-control:hover {color:var(--text);text-decoration:underline;text-underline-offset:4px}
+.dock {width:auto}
+.dock .cta {flex:1}
+.result-band {
+  background:var(--milk);padding:clamp(22px,3.6vw,66px) var(--gutter);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--clay);
+}
+.metric {font:800 clamp(48px,14.5vw,126px)/.86 var(--display);letter-spacing:-.085em;white-space:nowrap}
+.metric span {font-size:.47em;letter-spacing:-.06em;color:var(--blood)}
+.result-band p {font:600 .875rem/1.22 var(--body);max-width:14ch}
+.result-band .more {font-size:.8125rem}
+.kicker {
+  display:flex;align-items:center;gap:10px;margin:0 0 16px;color:var(--muted);
+  font:600 .875rem/1.3 var(--body);
+}
+.kicker::before {content:"";width:22px;height:3px;background:var(--dot)}
+.headline {font:800 clamp(2.5rem,7vw,6.4rem)/.99 var(--display);letter-spacing:-.068em;text-wrap:balance}
+.section-head {display:grid;gap:18px;align-items:end;margin-bottom:clamp(24px,3.2vw,54px)}
+.section-lead,.producer-copy>p,.service-method>div>p,.evidence-intro {
+  max-width:48ch;font-size:clamp(1rem,1.4vw,1.3rem);line-height:1.52;color:var(--muted)
+}
+.method-steps {counter-reset:method;display:grid;list-style:none}
+.method-steps li {position:relative;counter-increment:method;padding:14px 0 14px 44px;border-top:1px solid var(--clay)}
+.method-steps li::before {content:counter(method,decimal-leading-zero);position:absolute;left:0;top:16px;color:var(--blood);font:600 .875rem/1.5 var(--body);font-variant-numeric:tabular-nums}
+.method-steps b,.plan-list h3,.format-piece h3,.study figcaption b {font:800 clamp(1.2rem,2vw,2rem)/1.1 var(--display);letter-spacing:-.04em}
+.method-steps p,.plan-list p,.format-piece p,.study figcaption span {margin-top:6px;line-height:1.5;color:var(--muted)}
+.study {
+  --bg:var(--steel);--text:var(--milk);--muted:var(--frost);--dot:var(--scarlet);
+  background:var(--bg);color:var(--text);margin:clamp(28px,4vw,64px) calc(0px - var(--gutter)) 0;
+  padding:clamp(24px,3vw,52px) var(--gutter);display:grid;gap:20px;
+}
+.study-intro h3 {font:800 clamp(1.9rem,4.1vw,4.8rem)/1.02 var(--display);letter-spacing:-.055em;max-width:18ch;text-wrap:balance}
+.study-intro>p:not(.kicker) {color:var(--linen);margin:14px 0 4px;max-width:42ch;line-height:1.5}
+.study-films {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(8px,1vw,18px)}
+.study .tile {aspect-ratio:3/4;border-radius:0}
+.study figcaption {padding-top:12px}.study figcaption b,.study figcaption span {display:block}
+.study figcaption span {font-size:.9375rem}
+.study .cap,.format-piece .cap,.service-frames .cap,.format-piece .kart::after {
+  display:flex;align-items:flex-end;justify-content:space-between;gap:4px;
+}
+.study .cap i,.format-piece .cap i {display:none}
+.study .cap::after,.format-piece .cap::after,.service-frames .tile:first-child .cap::after,.format-piece .kart::after {
+  content:"";width:34px;height:34px;flex:none;margin-left:auto;border:1px solid var(--milk);border-radius:50%;
+  background:rgba(3,6,10,.65) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='%23FEFBF5' d='M7 4l9 6-9 6z'/%3E%3C/svg%3E") 53% center/15px no-repeat;
+}
+.format-piece .kart::after {position:absolute;bottom:12px;right:10px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23FEFBF5' stroke-width='2'%3E%3Cpath d='M6 3H3v4m11-4h3v4M3 13v4h4m6 0h4v-4'/%3E%3C/svg%3E")}
+.formats {background:var(--graphite)}
+.format-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 10px}
+.format-piece {min-width:0}
+.format-piece .tile {aspect-ratio:4/5;border-radius:0}
+.format-piece h3 {margin-top:12px}
+.format-piece p {font-size:1rem;max-width:46ch}
+.format-piece:first-child,.format-piece:last-child {grid-column:span 2}
+.format-piece:first-child .tile,.format-piece:last-child .tile {aspect-ratio:1.7}
+.format-piece:nth-child(2) .zast,.format-piece:nth-child(2) video,.service-frames .zast,.service-frames video {object-position:50% 37%}
+.format-piece .kart img {object-position:center}
+.format-links {justify-content:space-between;gap:20px;border-top:1px solid var(--lead);margin-top:28px;padding-top:10px}
+.producer,.faq-layout,.more-services,.other-services,.service-method {display:grid;align-items:start;gap:clamp(22px,4vw,67px)}
+.producer {background:var(--milk)}
+.producer-copy>p {color:var(--steel)}
+.producer .me {margin:20px 0 0}.producer .monogram,.producer .photo {width:56px;height:56px}
+.producer .monogram {font-size:29px}.producer .brand-dot {width:5px;height:5px;margin-top:19px}
+.producer .nm small {font-size:.875rem}.producer .nm b {margin-bottom:4px}
+.feature-trial,.feature-trial#cena {
+  display:block;--bg:var(--blood);--text:var(--milk);--muted:var(--milk);--line:var(--wine);
+  background:var(--bg);color:var(--text);padding:clamp(36px,6vw,100px) var(--gutter);
+}
+.trial-layout {display:grid;gap:30px}
+.trial-title {display:flex;align-items:center;gap:clamp(14px,2.1vw,32px);font:800 clamp(2.1rem,6.1vw,6.4rem)/.92 var(--display);letter-spacing:-.06em}
+.trial-one {display:block;font-size:2.9em;line-height:.85;letter-spacing:-.095em;margin-left:-.03em}
+.trial-offer>p {margin:20px 0 18px;max-width:38ch;line-height:1.5;font-size:clamp(1rem,1.35vw,1.25rem)}
+.trial-offer .cta {background:var(--milk);color:var(--steel)}
+.trial-road {list-style:none}
+.trial-road li {display:grid;gap:5px;border-top:1px solid var(--milk);padding:12px 0}
+.trial-road b,.trial-price h3 {font:800 clamp(1.2rem,2vw,2rem)/1.15 var(--display);letter-spacing:-.04em}
+.trial-road span {max-width:46ch}
+.plans {background:var(--milk)}
+.plan-list {list-style:none;display:grid;gap:20px}
+.plan-list li {border-top:1px solid var(--clay);padding-top:14px}
+.plan-list a {display:inline-flex;align-items:center;min-height:44px;text-underline-offset:6px;text-decoration-thickness:1px}
+.more-services {background:var(--linen)}
+.more-services .elist {margin:0}
+.faq-layout .answers details {max-width:none}
+.contact-end .in {display:grid;align-items:center;gap:18px}
+.contact-end .fbig {margin:0;max-width:14ch;font-size:clamp(2.75rem,6.8vw,7.5rem);letter-spacing:-.065em}
+.contact-copy>.cta {background:var(--milk);color:var(--steel)}
+.contact-copy .handle {font-size:.875rem}
+.service-opening {padding-top:12px}
+.service-opening .crumbs {margin-bottom:clamp(18px,2.7vw,48px);border-bottom:1px solid var(--lead)}
+.service-spread {display:grid;gap:24px;align-items:center}
+.service-opening .uh1 {font-size:clamp(2.8rem,7.1vw,7.5rem);line-height:.97;letter-spacing:-.065em;max-width:17ch}
+.service-copy>.lead {margin-bottom:20px}
+.service-frames {display:grid;grid-template:repeat(2,minmax(0,1fr))/minmax(0,2.3fr) minmax(0,1fr);gap:5px;aspect-ratio:1.28}
+.service-frames .tile {min-height:0;aspect-ratio:auto;border-radius:0}
+.service-frames .tile:first-child {grid-row:span 2}
+.service-frames .tile:only-child {grid-column:span 2}
+.service-frames .tile:nth-child(2):last-child {grid-row:span 2}
+.service-frames .cap {padding:24px 7px 7px}
+.service-frames .cap i {font-size:.8125rem}
+.film-caption {justify-content:space-between;gap:10px;color:var(--frost);font-size:.875rem;min-height:44px;border-bottom:1px solid var(--lead)}
+.service-method {background:var(--graphite)}
+.service-method>div>p:not(.kicker) {color:var(--linen);margin-bottom:16px}
+.service-method>div>p:last-child {margin-bottom:0}
+.service-includes .incl {list-style:disc}
+.service-includes .incl li {padding:16px 0;border-color:var(--clay)}
+.service-includes .incl li::before {content:none}
+.service-includes .headline {margin-bottom:24px}
+.other-services {background:var(--linen)}
+.evidence {background:var(--milk)}
+.evidence .headline,.evidence-intro,.period,.comparison,.terms,.quote-proof p {margin-bottom:20px}
+.evidence>p,.terms dd {max-width:54ch}
+.evidence h3,.terms dt {font:800 1.3rem/1.2 var(--display);margin-bottom:8px}
+.comparison,.terms {display:grid;gap:20px}
+.comparison>div,.terms>div {padding-top:14px;border-top:1px solid var(--clay)}
+.comparison dd,.quote-proof blockquote,.trial-price strong {font:800 clamp(1.75rem,4vw,4rem)/1.1 var(--display);letter-spacing:-.05em;overflow-wrap:anywhere}
+.quote-proof {grid-column:1/-1;border-top:1px solid var(--clay);padding-top:24px}
+.quote-proof blockquote {max-width:30ch;margin-bottom:18px}
+.trial-price {border-top:1px solid var(--milk);padding-top:20px;margin-top:26px}
+.trial-price strong {display:block;margin:10px 0}
+@media(min-width:620px) {
+  .method-steps,.plan-list,.comparison {grid-template-columns:repeat(2,minmax(0,1fr));column-gap:var(--grid-gap)}
+  .hero-layout {gap:24px}.wall-frame {height:clamp(240px,40svh,430px)}
+  .cut-hero .wall .tile {aspect-ratio:1.12}
+  .section-head,.trial-layout,.producer,.service-method,.more-services,.faq-layout,.contact-end .in {grid-template-columns:1fr 1fr}
+  .result-band {justify-content:flex-start;gap:clamp(38px,8vw,148px)}
+  .metric {font-size:clamp(100px,13vw,220px)}
+  .result-band p {font:800 clamp(24px,3.4vw,52px)/1 var(--display);letter-spacing:-.04em;max-width:17ch}
+  .result-band .more {font-size:1rem;margin-top:4px}
+  .trial-layout {align-items:center}.terms {grid-template-columns:repeat(3,minmax(0,1fr))}
+  .more-services .elist {grid-template-columns:1fr}.more-services .elist li {padding-block:12px}
+  .dock {min-width:210px}
+}
+@media(min-width:900px) {
+  .masthead {min-height:76px}
+  .cut-hero {padding-bottom:0}
+  .hero-layout {grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);align-items:center;gap:0 var(--gutter)}
+  .hero-title {padding:clamp(28px,3.4vw,60px) 0}
+  .title-word {font-size:clamp(114px,12.8vw,220px)}
+  .title-subject {font-size:clamp(27px,2.8vw,50px);margin-top:.35em}
+  .hero-offer {grid-column:2;grid-row:1;padding:26px 0}
+  .hero-offer .lead {font-size:clamp(1rem,1.4vw,1.45rem);margin-bottom:20px}
+  .wall-frame {grid-column:1/-1;height:clamp(250px,37svh,480px)}
+  .cut-hero .wall {gap:6px}
+  .cut-hero .track {gap:6px;padding-bottom:6px}
+  .cut-hero .wall .tile {aspect-ratio:1.45}
+  .cut-hero .wall .cap {padding:36px 15px 13px}
+  .cut-hero .wall .cap i {font-size:.875rem}
+  .section-head {grid-template-columns:minmax(0,1.35fr) minmax(0,.65fr);column-gap:var(--gutter)}
+  .method-steps {grid-template-columns:repeat(4,minmax(0,1fr))}
+  .method-steps li {padding:36px 0 0}.method-steps li::before {top:8px}
+  .study {grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;margin-inline:0;padding:clamp(22px,3vw,50px)}
+  .study .tile {aspect-ratio:1.04}.study-intro {padding-right:28px}
+  .formats .format-grid {grid-template-columns:repeat(12,minmax(0,1fr));gap:38px var(--grid-gap)}
+  .format-piece,.format-piece:first-child,.format-piece:last-child {grid-column:span 3}
+  .format-piece:first-child,.format-piece:last-child {grid-column:span 6}
+  .format-piece .tile,.format-piece:first-child .tile,.format-piece:last-child .tile {aspect-ratio:auto;height:clamp(210px,22vw,370px)}
+  .format-piece h3 {font-size:clamp(23px,2.3vw,40px)}
+  .producer,.faq-layout,.other-services,.service-method,.contact-end .in {grid-template-columns:1.05fr .95fr;column-gap:var(--gutter)}
+  .trial-layout {grid-template-columns:1.05fr .95fr;column-gap:var(--gutter)}
+  .trial-road li {grid-template-columns:1fr 1.75fr;align-items:baseline;gap:22px;padding-block:20px}
+  .more-services {grid-template-columns:.65fr 1.35fr}
+  .more-services .elist {grid-template-columns:repeat(3,minmax(0,1fr))}
+  .contact-end .fbig {grid-row:auto}
+  .service-spread {grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:var(--gutter)}
+  .service-frames {aspect-ratio:1.45;gap:7px}
+  .service-opening .uh1 {font-size:clamp(56px,5.6vw,110px)}
+  .service-includes,.other-services {display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:var(--gutter)}
+  .service-includes .headline,.other-services .h2 {margin:0}
+  .service-includes .incl {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px}
+}
+@media(max-width:359px) {
+  .masthead nav {gap:9px}.masthead a {font-size:.8125rem}
+  .hero-offer .hero-actions {gap:6px}.hero-offer .cta {padding-inline:12px}
+  .result-band {align-items:flex-start}.metric {font-size:14vw}
+}
+@media(prefers-reduced-motion:no-preference) {
+  .section-arrived {animation:section-arrival .45s ease-out both}
+  @keyframes section-arrival {from{transform:translateY(8px);opacity:.85}to{transform:none;opacity:1}}
+}
+.crop-study {grid-column:1/-1;border-top:1px solid var(--lead)}
+.crop-study summary {
+  display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:48px;
+  list-style:none;cursor:pointer;font-weight:600;
+}
+.crop-study summary::-webkit-details-marker {display:none}
+.crop-study summary i {display:grid;place-items:center;flex:none;width:28px;height:28px}
+.crop-study summary svg {width:19px}.crop-study[open] summary i {transform:rotate(45deg)}
+.crop-pair {display:grid;grid-template-columns:1fr 1fr;gap:var(--grid-gap);padding:6px 0 16px}
+.crop-frame {height:clamp(185px,26vw,350px);background:var(--night);overflow:hidden}
+.crop-frame img {display:block;width:100%;height:100%;object-fit:contain}
+.crop-pair figure:last-child img {object-fit:cover;object-position:50% 56%;transform:scale(1.48);transform-origin:50% 56%}
+.catalog-tools {grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px 20px;border-top:1px solid var(--line);padding-top:14px}
+.catalog-tools .tabs {margin:0;border:0;padding:0}
+@media(max-width:480px) {.catalog-tools .tabs {width:100%}}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "@id": "https://alek5andr25.github.io/#ya", "name": "Александр Кутняк", "jobTitle": "Продюсер роликов", "url": "https://alek5andr25.github.io/", "sameAs": ["https://t.me/alexanderkutnyak"]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Александр Кутняк", "url": "https://alek5andr25.github.io/"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Что прислать для первого ролика?", "acceptedAnswer": {"@type": "Answer", "text": "Расскажите, что вы продаёте, кому и где хотите показать ролик. Если есть фотографии товара или пример, который вам нравится, пришлите их в Телеграм."}}, {"@type": "Question", "name": "Когда я смогу посмотреть сценарий?", "acceptedAnswer": {"@type": "Answer", "text": "До работы над кадрами. Я предложу тему, напишу сценарий и покажу его вам на согласование."}}]}</script>
 </head>
 <body>
 <main>
-<section class="hero" data-storis>
-  <div class="wall" id="wall" aria-hidden="true"><div class="col"><div class="track"><a class="tile v" href="/raboty/med1/" data-id="med1" tabindex="-1" data-src="/r/med1-m.9cfea8fa.mp4" data-small="/r/med1-s.2d30b5d7.mp4" aria-label="Открыть ролик: Клиника: объяснили лечение, 3D-анимация"><img class="zast" src="/r/med1-m.4c684031.jpg" srcset="/r/med1-s.810ee0db.jpg 240w, /r/med1-m.4c684031.jpg 360w, /r/med1.bd62991b.jpg 540w" sizes="(min-width:1000px) 19vw, 33vw" alt="" decoding="async" width="360" height="640"><span class="cap"><i>3D-анимация</i></span></a><a class="tile v" href="/raboty/sm1/" data-id="sm1" tabindex="-1" data-src="/r/sm1-m.2aee969e.mp4" data-small="/r/sm1-s.65e1672a.mp4" aria-label="Открыть ролик: Ресторан: праздник в зале, Мультсериал"><img class="zast" src="/r/sm1-m.ecaf9ae8.jpg" srcset="/r/sm1-s.8a27923a.jpg 240w, /r/sm1-m.ecaf9ae8.jpg 360w, /r/sm1.c2c8382c.jpg 540w" sizes="(min-width:1000px) 19vw, 33vw" alt="" decoding="async" width="360" height="640"><span class="cap"><i>Мультсериал</i></span></a><a class="tile v" href="/raboty/bug1/" data-id="bug1" tabindex="-1" data-src="/r/bug1-m.56066fcb.mp4" data-small="/r/bug1-s.eb0aedc6.mp4" aria-label="Открыть ролик: Мультфильм с продолжением, Мультфильм"><img class="zast" src="/r/bug1-m.65479658.jpg" srcset="/r/bug1-s.15319b1e.jpg 240w, /r/bug1-m.65479658.jpg 360w, /r/bug1.6d74c5eb.jpg 540w" sizes="(min-width:1000px) 19vw, 33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>Мультфильм</i></span></a><a class="tile v" href="/raboty/doll1/" data-id="doll1" tabindex="-1" data-src="/r/doll1-m.445cbb73.mp4" data-small="/r/doll1-s.3f4f2395.mp4" aria-label="Открыть ролик: 3D-герой бренда, 3D-персонаж"><img class="zast" src="/r/doll1-m.cf6ddcf1.jpg" srcset="/r/doll1-s.373cdea7.jpg 240w, /r/doll1-m.cf6ddcf1.jpg 360w, /r/doll1.d195d2c3.jpg 540w" sizes="(min-width:1000px) 19vw, 33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>3D-персонаж</i></span></a><div class="dub" aria-hidden="true"><a class="tile v" href="/raboty/med1/" data-id="med1" tabindex="-1" data-src="/r/med1-m.9cfea8fa.mp4" data-small="/r/med1-s.2d30b5d7.mp4" aria-label="Открыть ролик: Клиника: объяснили лечение, 3D-анимация"><img class="zast" src="/r/med1-m.4c684031.jpg" srcset="/r/med1-s.810ee0db.jpg 240w, /r/med1-m.4c684031.jpg 360w, /r/med1.bd62991b.jpg 540w" sizes="(min-width:1000px) 19vw, 33vw" alt="" decoding="async" width="360" height="640"><span class="cap"><i>3D-анимация</i></span></a><a class="tile v" href="/raboty/sm1/" data-id="sm1" tabindex="-1" data-src="/r/sm1-m.2aee969e.mp4" data-small="/r/sm1-s.65e1672a.mp4" aria-label="Открыть ролик: Ресторан: праздник в зале, Мультсериал"><img class="zast" src="/r/sm1-m.ecaf9ae8.jpg" srcset="/r/sm1-s.8a27923a.jpg 240w, /r/sm1-m.ecaf9ae8.jpg 360w, /r/sm1.c2c8382c.jpg 540w" sizes="(min-width:1000px) 19vw, 33vw" alt="" decoding="async" width="360" height="640"><span class="cap"><i>Мультсериал</i></span></a><a class="tile v" href="/raboty/bug1/" data-id="bug1" tabindex="-1" data-src="/r/bug1-m.56066fcb.mp4" data-small="/r/bug1-s.eb0aedc6.mp4" aria-label="Открыть ролик: Мультфильм с продолжением, Мультфильм"><img class="zast" src="/r/bug1-m.65479658.jpg" srcset="/r/bug1-s.15319b1e.jpg 240w, /r/bug1-m.65479658.jpg 360w, /r/bug1.6d74c5eb.jpg 540w" sizes="(min-width:1000px) 19vw, 33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>Мультфильм</i></span></a><a class="tile v" href="/raboty/doll1/" data-id="doll1" tabindex="-1" data-src="/r/doll1-m.445cbb73.mp4" data-small="/r/doll1-s.3f4f2395.mp4" aria-label="Открыть ролик: 3D-герой бренда, 3D-персонаж"><img class="zast" src="/r/doll1-m.cf6ddcf1.jpg" srcset="/r/doll1-s.373cdea7.jpg 240w, /r/doll1-m.cf6ddcf1.jpg 360w, /r/doll1.d195d2c3.jpg 540w" sizes="(min-width:1000px) 19vw, 33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>3D-персонаж</i></span></a></div></div></div><div class="col"><div class="track"><a class="tile v" href="/raboty/hor/" data-id="hor" tabindex="-1" data-src="/r/hor-m.4e2dedf9.mp4" data-small="/r/hor-s.ee83225f.mp4" aria-label="Открыть ролик: Атмосферная сцена, Кино-сцена"><img class="zast" src="/r/hor-m.bd04436c.jpg" srcset="/r/hor-s.b2de8b10.jpg 240w, /r/hor-m.bd04436c.jpg 360w, /r/hor.e422e514.jpg 540w" sizes="(min-width:1000px) 19vw, 33vw" alt="" decoding="async" width="360" height="640"><span class="cap"><i>Кино-сцена</i></span></a><a class="tile v" href="/raboty/sm2/" data-id="sm2" tabindex="-1" data-src="/r/sm2-m.034cfce6.mp4" data-small="/r/sm2-s.40c43cde.mp4" aria-label="Открыть ролик: Ресторан: серия для соцсетей, Мультсериал"><img class="zast" src="/r/sm2-m.2ca7c6d4.jpg" srcset="/r/sm2-s.c5efc724.jpg 240w, /r/sm2-m.2ca7c6d4.jpg 360w, /r/sm2.90908802.jpg 540w" sizes="(min-width:1000px) 19vw, 33vw" alt="" decoding="async" width="360" height="640"><span class="cap"><i>Мультсериал</i></span></a><a class="tile v" href="/raboty/med2/" data-id="med2" tabindex="-1" data-src="/r/med2-m.2a06d769.mp4" data-small="/r/med2-s.4d508bfe.mp4" aria-label="Открыть ролик: Приложение: реклама в 3D, 3D-анимация"><img class="zast" src="/r/med2-m.61438b22.jpg" srcset="/r/med2-s.40fa9b16.jpg 240w, /r/med2-m.61438b22.jpg 360w, /r/med2.36da9bc2.jpg 540w" sizes="(min-width:1000px) 19vw, 33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>3D-анимация</i></span></a><a class="tile v" href="/raboty/sm6/" data-id="sm6" tabindex="-1" data-src="/r/sm6-m.85753575.mp4" data-small="/r/sm6-s.beedc171.mp4" aria-label="Открыть ролик: Ресторан: встреча гостей, Мультсериал"><img class="zast" src="/r/sm6-m.cce62b2f.jpg" srcset="/r/sm6-s.a079d60a.jpg 240w, /r/sm6-m.cce62b2f.jpg 360w, /r/sm6.7e5f1bd1.jpg 540w" sizes="(min-width:1000px) 19vw, 33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>Мультсериал</i></span></a><a class="tile v" href="/raboty/doll2/" data-id="doll2" tabindex="-1" data-src="/r/doll2-m.75c04fce.mp4" data-small="/r/doll2-s.e26b35ee.mp4" aria-label="Открыть ролик: Ведущий, которого нет, 3D-персонаж"><img class="zast" src="/r/doll2-m.16f401eb.jpg" srcset="/r/doll2-s.0a92aa61.jpg 240w, /r/doll2-m.16f401eb.jpg 360w, /r/doll2.179de793.jpg 540w" sizes="(min-width:1000px) 19vw, 33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>3D-персонаж</i></span></a><div class="dub" aria-hidden="true"><a class="tile v" href="/raboty/hor/" data-id="hor" tabindex="-1" data-src="/r/hor-m.4e2dedf9.mp4" data-small="/r/hor-s.ee83225f.mp4" aria-label="Открыть ролик: Атмосферная сцена, Кино-сцена"><img class="zast" src="/r/hor-m.bd04436c.jpg" srcset="/r/hor-s.b2de8b10.jpg 240w, /r/hor-m.bd04436c.jpg 360w, /r/hor.e422e514.jpg 540w" sizes="(min-width:1000px) 19vw, 33vw" alt="" decoding="async" width="360" height="640"><span class="cap"><i>Кино-сцена</i></span></a><a class="tile v" href="/raboty/sm2/" data-id="sm2" tabindex="-1" data-src="/r/sm2-m.034cfce6.mp4" data-small="/r/sm2-s.40c43cde.mp4" aria-label="Открыть ролик: Ресторан: серия для соцсетей, Мультсериал"><img class="zast" src="/r/sm2-m.2ca7c6d4.jpg" srcset="/r/sm2-s.c5efc724.jpg 240w, /r/sm2-m.2ca7c6d4.jpg 360w, /r/sm2.90908802.jpg 540w" sizes="(min-width:1000px) 19vw, 33vw" alt="" decoding="async" width="360" height="640"><span class="cap"><i>Мультсериал</i></span></a><a class="tile v" href="/raboty/med2/" data-id="med2" tabindex="-1" data-src="/r/med2-m.2a06d769.mp4" data-small="/r/med2-s.4d508bfe.mp4" aria-label="Открыть ролик: Приложение: реклама в 3D, 3D-анимация"><img class="zast" src="/r/med2-m.61438b22.jpg" srcset="/r/med2-s.40fa9b16.jpg 240w, /r/med2-m.61438b22.jpg 360w, /r/med2.36da9bc2.jpg 540w" sizes="(min-width:1000px) 19vw, 33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>3D-анимация</i></span></a><a class="tile v" href="/raboty/sm6/" data-id="sm6" tabindex="-1" data-src="/r/sm6-m.85753575.mp4" data-small="/r/sm6-s.beedc171.mp4" aria-label="Открыть ролик: Ресторан: встреча гостей, Мультсериал"><img class="zast" src="/r/sm6-m.cce62b2f.jpg" srcset="/r/sm6-s.a079d60a.jpg 240w, /r/sm6-m.cce62b2f.jpg 360w, /r/sm6.7e5f1bd1.jpg 540w" sizes="(min-width:1000px) 19vw, 33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>Мультсериал</i></span></a><a class="tile v" href="/raboty/doll2/" data-id="doll2" tabindex="-1" data-src="/r/doll2-m.75c04fce.mp4" data-small="/r/doll2-s.e26b35ee.mp4" aria-label="Открыть ролик: Ведущий, которого нет, 3D-персонаж"><img class="zast" src="/r/doll2-m.16f401eb.jpg" srcset="/r/doll2-s.0a92aa61.jpg 240w, /r/doll2-m.16f401eb.jpg 360w, /r/doll2.179de793.jpg 540w" sizes="(min-width:1000px) 19vw, 33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>3D-персонаж</i></span></a></div></div></div><div class="col"><div class="track"><a class="tile v" href="/raboty/sm5/" data-id="sm5" tabindex="-1" data-src="/r/sm5-m.fec2496c.mp4" data-small="/r/sm5-s.8cd2ab91.mp4" aria-label="Открыть ролик: Ресторан: вечеринка, Мультсериал"><img class="zast" src="/r/sm5-m.13824682.jpg" srcset="/r/sm5-s.e0401570.jpg 240w, /r/sm5-m.13824682.jpg 360w, /r/sm5.726ea251.jpg 540w" sizes="(min-width:1000px) 19vw, 33vw" alt="" decoding="async" width="360" height="640"><span class="cap"><i>Мультсериал</i></span></a><a class="tile v" href="/raboty/med3/" data-id="med3" tabindex="-1" data-src="/r/med3-m.ea950998.mp4" data-small="/r/med3-s.bc526159.mp4" aria-label="Открыть ролик: Как работает приложение, 3D-анимация"><img class="zast" src="/r/med3-m.828dbbe5.jpg" srcset="/r/med3-s.f2781a76.jpg 240w, /r/med3-m.828dbbe5.jpg 360w, /r/med3.e66c438e.jpg 540w" sizes="(min-width:1000px) 19vw, 33vw" alt="" decoding="async" width="360" height="640"><span class="cap"><i>3D-анимация</i></span></a><a class="tile v" href="/raboty/bug2/" data-id="bug2" tabindex="-1" data-src="/r/bug2-m.37ad6a39.mp4" data-small="/r/bug2-s.4a04a1d0.mp4" aria-label="Открыть ролик: История с продолжением, Мультфильм"><img class="zast" src="/r/bug2-m.de79e2a7.jpg" srcset="/r/bug2-s.f0171a53.jpg 240w, /r/bug2-m.de79e2a7.jpg 360w, /r/bug2.0acdcff7.jpg 540w" sizes="(min-width:1000px) 19vw, 33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>Мультфильм</i></span></a><a class="tile v" href="/raboty/sm3/" data-id="sm3" tabindex="-1" data-src="/r/sm3-m.d39bde04.mp4" data-small="/r/sm3-s.848d2ab5.mp4" aria-label="Открыть ролик: Ресторан: фирменное блюдо, Мультсериал"><img class="zast" src="/r/sm3-m.4e1dbc53.jpg" srcset="/r/sm3-s.736a94fb.jpg 240w, /r/sm3-m.4e1dbc53.jpg 360w, /r/sm3.5e527ba7.jpg 540w" sizes="(min-width:1000px) 19vw, 33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>Мультсериал</i></span></a><div class="dub" aria-hidden="true"><a class="tile v" href="/raboty/sm5/" data-id="sm5" tabindex="-1" data-src="/r/sm5-m.fec2496c.mp4" data-small="/r/sm5-s.8cd2ab91.mp4" aria-label="Открыть ролик: Ресторан: вечеринка, Мультсериал"><img class="zast" src="/r/sm5-m.13824682.jpg" srcset="/r/sm5-s.e0401570.jpg 240w, /r/sm5-m.13824682.jpg 360w, /r/sm5.726ea251.jpg 540w" sizes="(min-width:1000px) 19vw, 33vw" alt="" decoding="async" width="360" height="640"><span class="cap"><i>Мультсериал</i></span></a><a class="tile v" href="/raboty/med3/" data-id="med3" tabindex="-1" data-src="/r/med3-m.ea950998.mp4" data-small="/r/med3-s.bc526159.mp4" aria-label="Открыть ролик: Как работает приложение, 3D-анимация"><img class="zast" src="/r/med3-m.828dbbe5.jpg" srcset="/r/med3-s.f2781a76.jpg 240w, /r/med3-m.828dbbe5.jpg 360w, /r/med3.e66c438e.jpg 540w" sizes="(min-width:1000px) 19vw, 33vw" alt="" decoding="async" width="360" height="640"><span class="cap"><i>3D-анимация</i></span></a><a class="tile v" href="/raboty/bug2/" data-id="bug2" tabindex="-1" data-src="/r/bug2-m.37ad6a39.mp4" data-small="/r/bug2-s.4a04a1d0.mp4" aria-label="Открыть ролик: История с продолжением, Мультфильм"><img class="zast" src="/r/bug2-m.de79e2a7.jpg" srcset="/r/bug2-s.f0171a53.jpg 240w, /r/bug2-m.de79e2a7.jpg 360w, /r/bug2.0acdcff7.jpg 540w" sizes="(min-width:1000px) 19vw, 33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>Мультфильм</i></span></a><a class="tile v" href="/raboty/sm3/" data-id="sm3" tabindex="-1" data-src="/r/sm3-m.d39bde04.mp4" data-small="/r/sm3-s.848d2ab5.mp4" aria-label="Открыть ролик: Ресторан: фирменное блюдо, Мультсериал"><img class="zast" src="/r/sm3-m.4e1dbc53.jpg" srcset="/r/sm3-s.736a94fb.jpg 240w, /r/sm3-m.4e1dbc53.jpg 360w, /r/sm3.5e527ba7.jpg 540w" sizes="(min-width:1000px) 19vw, 33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>Мультсериал</i></span></a></div></div></div></div>
-  <div class="shade"></div>
-  <div class="top"><div class="logo">Александр<br>Кутняк<span class="brand-dot" aria-hidden="true"></span></div><div class="live">От идеи<br>до выпуска</div></div>
-  <div class="bottom">
-    <p class="proof"><b id="views">500+ млн</b>просмотров у моих роликов</p>
-    <h1 class="h1" aria-label="Поток роликов для бизнеса, брендов и экспертов"><span class="big" id="big"><span>поток<span class="word-dot" aria-hidden="true">.</span></span></span>
-    <span class="forline">роликов для <span class="slot"><span class="ul" id="slot"><span class="li">бизнеса</span><span class="li">брендов</span><span class="li">экспертов</span></span></span></span></h1>
-    <p class="lead">Разберу вашу нишу и конкурентов, найду, что там уже набирает просмотры, и на этой основе сделаю для вас ролики — регулярно, по графику.</p>
-    <div class="row"><a class="cta" href="https://t.me/alexanderkutnyak?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D1%80%D0%BE%D0%BB%D0%B8%D0%BA%D0%B8%20%D0%B4%D0%BB%D1%8F%20%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0.%0A%D0%A7%D1%82%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D1%8E%3A%20%0A%D0%94%D0%BB%D1%8F%20%D0%BA%D0%BE%D0%B3%D0%BE%3A%20%0A%D0%93%D0%B4%D0%B5%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BF%D0%BE%D0%BA%D0%B0%D0%B7%D1%8B%D0%B2%D0%B0%D1%82%D1%8C%3A%20" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.7.8l-4.8-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2l-11 6.9-4.7-1.5c-1-.3-1-1 .2-1.5l18.5-7.1c.9-.3 1.6.2 1.4 1.2Z"/></svg>Обсудить задачу</a><a class="probe" href="https://t.me/alexanderkutnyak?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D0%B4%D0%B8%D0%BD%20%D1%80%D0%BE%D0%BB%D0%B8%D0%BA%20%D0%BD%D0%B0%20%D0%BF%D1%80%D0%BE%D0%B1%D1%83.%0A%D0%A7%D1%82%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D1%8E%3A%20%0A%D0%94%D0%BB%D1%8F%20%D0%BA%D0%BE%D0%B3%D0%BE%3A%20%0A%D0%97%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%20%D1%80%D0%BE%D0%BB%D0%B8%D0%BA%D0%B0%3A%20" target="_blank" rel="noopener">Ролик<br>на пробу</a></div>
-    <div class="hero-tools"><a class="hint hero-works" href="/raboty/">Смотреть все работы <span aria-hidden="true">→</span></a>
-    <button type="button" id="wall-toggle" hidden>Остановить фон</button></div>
-  
+<section class="hero cut-hero" data-storis>
+  <header class="masthead"><div class="signature">Александр Кутняк<span class="word-dot" aria-hidden="true">.</span></div>
+    <nav aria-label="По странице"><a href="#raboty">Форматы</a><a href="#cena">Как начнём</a></nav></header>
+  <div class="hero-layout"><h1 class="hero-title" aria-label="Поток роликов для бизнеса, брендов и экспертов"><span class="title-word">поток<span class="word-dot" aria-hidden="true">.</span></span>
+    <span class="title-subject">роликов для бизнеса</span></h1>
+    <div class="wall-frame"><div class="wall" id="wall" aria-hidden="true"><div class="col"><div class="track"><a class="tile v" href="/raboty/sm1/" data-id="sm1" tabindex="-1" data-src="/r/sm1-m.2aee969e.mp4" data-small="/r/sm1-s.65e1672a.mp4" aria-label="Открыть ролик: Ресторан: праздник в зале, Мультсериал"><img class="zast" src="/r/sm1-m.ecaf9ae8.jpg" srcset="/r/sm1-s.8a27923a.jpg 240w, /r/sm1-m.ecaf9ae8.jpg 360w, /r/sm1.c2c8382c.jpg 540w" sizes="33vw" alt="" decoding="async" width="360" height="640"><span class="cap"><i>Мультсериал</i></span></a><a class="tile v" href="/raboty/med1/" data-id="med1" tabindex="-1" data-src="/r/med1-m.9cfea8fa.mp4" data-small="/r/med1-s.2d30b5d7.mp4" aria-label="Открыть ролик: Клиника: объяснили лечение, 3D-анимация"><img class="zast" src="/r/med1-m.4c684031.jpg" srcset="/r/med1-s.810ee0db.jpg 240w, /r/med1-m.4c684031.jpg 360w, /r/med1.bd62991b.jpg 540w" sizes="33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>3D-анимация</i></span></a><a class="tile v" href="/raboty/bug1/" data-id="bug1" tabindex="-1" data-src="/r/bug1-m.56066fcb.mp4" data-small="/r/bug1-s.eb0aedc6.mp4" aria-label="Открыть ролик: Мультфильм с продолжением, Мультфильм"><img class="zast" src="/r/bug1-m.65479658.jpg" srcset="/r/bug1-s.15319b1e.jpg 240w, /r/bug1-m.65479658.jpg 360w, /r/bug1.6d74c5eb.jpg 540w" sizes="33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>Мультфильм</i></span></a><a class="tile v" href="/raboty/doll1/" data-id="doll1" tabindex="-1" data-src="/r/doll1-m.445cbb73.mp4" data-small="/r/doll1-s.3f4f2395.mp4" aria-label="Открыть ролик: 3D-герой бренда, 3D-персонаж"><img class="zast" src="/r/doll1-m.cf6ddcf1.jpg" srcset="/r/doll1-s.373cdea7.jpg 240w, /r/doll1-m.cf6ddcf1.jpg 360w, /r/doll1.d195d2c3.jpg 540w" sizes="33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>3D-персонаж</i></span></a><div class="dub" aria-hidden="true"><a class="tile v" href="/raboty/sm1/" data-id="sm1" tabindex="-1" data-src="/r/sm1-m.2aee969e.mp4" data-small="/r/sm1-s.65e1672a.mp4" aria-label="Открыть ролик: Ресторан: праздник в зале, Мультсериал"><img class="zast" src="/r/sm1-m.ecaf9ae8.jpg" srcset="/r/sm1-s.8a27923a.jpg 240w, /r/sm1-m.ecaf9ae8.jpg 360w, /r/sm1.c2c8382c.jpg 540w" sizes="33vw" alt="" decoding="async" width="360" height="640"><span class="cap"><i>Мультсериал</i></span></a><a class="tile v" href="/raboty/med1/" data-id="med1" tabindex="-1" data-src="/r/med1-m.9cfea8fa.mp4" data-small="/r/med1-s.2d30b5d7.mp4" aria-label="Открыть ролик: Клиника: объяснили лечение, 3D-анимация"><img class="zast" src="/r/med1-m.4c684031.jpg" srcset="/r/med1-s.810ee0db.jpg 240w, /r/med1-m.4c684031.jpg 360w, /r/med1.bd62991b.jpg 540w" sizes="33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>3D-анимация</i></span></a><a class="tile v" href="/raboty/bug1/" data-id="bug1" tabindex="-1" data-src="/r/bug1-m.56066fcb.mp4" data-small="/r/bug1-s.eb0aedc6.mp4" aria-label="Открыть ролик: Мультфильм с продолжением, Мультфильм"><img class="zast" src="/r/bug1-m.65479658.jpg" srcset="/r/bug1-s.15319b1e.jpg 240w, /r/bug1-m.65479658.jpg 360w, /r/bug1.6d74c5eb.jpg 540w" sizes="33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>Мультфильм</i></span></a><a class="tile v" href="/raboty/doll1/" data-id="doll1" tabindex="-1" data-src="/r/doll1-m.445cbb73.mp4" data-small="/r/doll1-s.3f4f2395.mp4" aria-label="Открыть ролик: 3D-герой бренда, 3D-персонаж"><img class="zast" src="/r/doll1-m.cf6ddcf1.jpg" srcset="/r/doll1-s.373cdea7.jpg 240w, /r/doll1-m.cf6ddcf1.jpg 360w, /r/doll1.d195d2c3.jpg 540w" sizes="33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>3D-персонаж</i></span></a></div></div></div><div class="col"><div class="track"><a class="tile v" href="/raboty/med2/" data-id="med2" tabindex="-1" data-src="/r/med2-m.2a06d769.mp4" data-small="/r/med2-s.4d508bfe.mp4" aria-label="Открыть ролик: Приложение: реклама в 3D, 3D-анимация"><img class="zast" src="/r/med2-m.61438b22.jpg" srcset="/r/med2-s.40fa9b16.jpg 240w, /r/med2-m.61438b22.jpg 360w, /r/med2.36da9bc2.jpg 540w" sizes="33vw" alt="" decoding="async" width="360" height="640"><span class="cap"><i>3D-анимация</i></span></a><a class="tile v" href="/raboty/hor/" data-id="hor" tabindex="-1" data-src="/r/hor-m.4e2dedf9.mp4" data-small="/r/hor-s.ee83225f.mp4" aria-label="Открыть ролик: Атмосферная сцена, Кино-сцена"><img class="zast" src="/r/hor-m.bd04436c.jpg" srcset="/r/hor-s.b2de8b10.jpg 240w, /r/hor-m.bd04436c.jpg 360w, /r/hor.e422e514.jpg 540w" sizes="33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>Кино-сцена</i></span></a><a class="tile v" href="/raboty/sm2/" data-id="sm2" tabindex="-1" data-src="/r/sm2-m.034cfce6.mp4" data-small="/r/sm2-s.40c43cde.mp4" aria-label="Открыть ролик: Ресторан: серия для соцсетей, Мультсериал"><img class="zast" src="/r/sm2-m.2ca7c6d4.jpg" srcset="/r/sm2-s.c5efc724.jpg 240w, /r/sm2-m.2ca7c6d4.jpg 360w, /r/sm2.90908802.jpg 540w" sizes="33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>Мультсериал</i></span></a><a class="tile v" href="/raboty/sm6/" data-id="sm6" tabindex="-1" data-src="/r/sm6-m.85753575.mp4" data-small="/r/sm6-s.beedc171.mp4" aria-label="Открыть ролик: Ресторан: встреча гостей, Мультсериал"><img class="zast" src="/r/sm6-m.cce62b2f.jpg" srcset="/r/sm6-s.a079d60a.jpg 240w, /r/sm6-m.cce62b2f.jpg 360w, /r/sm6.7e5f1bd1.jpg 540w" sizes="33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>Мультсериал</i></span></a><a class="tile v" href="/raboty/doll2/" data-id="doll2" tabindex="-1" data-src="/r/doll2-m.75c04fce.mp4" data-small="/r/doll2-s.e26b35ee.mp4" aria-label="Открыть ролик: Ведущий, которого нет, 3D-персонаж"><img class="zast" src="/r/doll2-m.16f401eb.jpg" srcset="/r/doll2-s.0a92aa61.jpg 240w, /r/doll2-m.16f401eb.jpg 360w, /r/doll2.179de793.jpg 540w" sizes="33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>3D-персонаж</i></span></a><div class="dub" aria-hidden="true"><a class="tile v" href="/raboty/med2/" data-id="med2" tabindex="-1" data-src="/r/med2-m.2a06d769.mp4" data-small="/r/med2-s.4d508bfe.mp4" aria-label="Открыть ролик: Приложение: реклама в 3D, 3D-анимация"><img class="zast" src="/r/med2-m.61438b22.jpg" srcset="/r/med2-s.40fa9b16.jpg 240w, /r/med2-m.61438b22.jpg 360w, /r/med2.36da9bc2.jpg 540w" sizes="33vw" alt="" decoding="async" width="360" height="640"><span class="cap"><i>3D-анимация</i></span></a><a class="tile v" href="/raboty/hor/" data-id="hor" tabindex="-1" data-src="/r/hor-m.4e2dedf9.mp4" data-small="/r/hor-s.ee83225f.mp4" aria-label="Открыть ролик: Атмосферная сцена, Кино-сцена"><img class="zast" src="/r/hor-m.bd04436c.jpg" srcset="/r/hor-s.b2de8b10.jpg 240w, /r/hor-m.bd04436c.jpg 360w, /r/hor.e422e514.jpg 540w" sizes="33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>Кино-сцена</i></span></a><a class="tile v" href="/raboty/sm2/" data-id="sm2" tabindex="-1" data-src="/r/sm2-m.034cfce6.mp4" data-small="/r/sm2-s.40c43cde.mp4" aria-label="Открыть ролик: Ресторан: серия для соцсетей, Мультсериал"><img class="zast" src="/r/sm2-m.2ca7c6d4.jpg" srcset="/r/sm2-s.c5efc724.jpg 240w, /r/sm2-m.2ca7c6d4.jpg 360w, /r/sm2.90908802.jpg 540w" sizes="33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>Мультсериал</i></span></a><a class="tile v" href="/raboty/sm6/" data-id="sm6" tabindex="-1" data-src="/r/sm6-m.85753575.mp4" data-small="/r/sm6-s.beedc171.mp4" aria-label="Открыть ролик: Ресторан: встреча гостей, Мультсериал"><img class="zast" src="/r/sm6-m.cce62b2f.jpg" srcset="/r/sm6-s.a079d60a.jpg 240w, /r/sm6-m.cce62b2f.jpg 360w, /r/sm6.7e5f1bd1.jpg 540w" sizes="33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>Мультсериал</i></span></a><a class="tile v" href="/raboty/doll2/" data-id="doll2" tabindex="-1" data-src="/r/doll2-m.75c04fce.mp4" data-small="/r/doll2-s.e26b35ee.mp4" aria-label="Открыть ролик: Ведущий, которого нет, 3D-персонаж"><img class="zast" src="/r/doll2-m.16f401eb.jpg" srcset="/r/doll2-s.0a92aa61.jpg 240w, /r/doll2-m.16f401eb.jpg 360w, /r/doll2.179de793.jpg 540w" sizes="33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>3D-персонаж</i></span></a></div></div></div><div class="col"><div class="track"><a class="tile v" href="/raboty/bug2/" data-id="bug2" tabindex="-1" data-src="/r/bug2-m.37ad6a39.mp4" data-small="/r/bug2-s.4a04a1d0.mp4" aria-label="Открыть ролик: История с продолжением, Мультфильм"><img class="zast" src="/r/bug2-m.de79e2a7.jpg" srcset="/r/bug2-s.f0171a53.jpg 240w, /r/bug2-m.de79e2a7.jpg 360w, /r/bug2.0acdcff7.jpg 540w" sizes="33vw" alt="" decoding="async" width="360" height="640"><span class="cap"><i>Мультфильм</i></span></a><a class="tile v" href="/raboty/sm5/" data-id="sm5" tabindex="-1" data-src="/r/sm5-m.fec2496c.mp4" data-small="/r/sm5-s.8cd2ab91.mp4" aria-label="Открыть ролик: Ресторан: вечеринка, Мультсериал"><img class="zast" src="/r/sm5-m.13824682.jpg" srcset="/r/sm5-s.e0401570.jpg 240w, /r/sm5-m.13824682.jpg 360w, /r/sm5.726ea251.jpg 540w" sizes="33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>Мультсериал</i></span></a><a class="tile v" href="/raboty/med3/" data-id="med3" tabindex="-1" data-src="/r/med3-m.ea950998.mp4" data-small="/r/med3-s.bc526159.mp4" aria-label="Открыть ролик: Как работает приложение, 3D-анимация"><img class="zast" src="/r/med3-m.828dbbe5.jpg" srcset="/r/med3-s.f2781a76.jpg 240w, /r/med3-m.828dbbe5.jpg 360w, /r/med3.e66c438e.jpg 540w" sizes="33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>3D-анимация</i></span></a><a class="tile v" href="/raboty/sm3/" data-id="sm3" tabindex="-1" data-src="/r/sm3-m.d39bde04.mp4" data-small="/r/sm3-s.848d2ab5.mp4" aria-label="Открыть ролик: Ресторан: фирменное блюдо, Мультсериал"><img class="zast" src="/r/sm3-m.4e1dbc53.jpg" srcset="/r/sm3-s.736a94fb.jpg 240w, /r/sm3-m.4e1dbc53.jpg 360w, /r/sm3.5e527ba7.jpg 540w" sizes="33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>Мультсериал</i></span></a><div class="dub" aria-hidden="true"><a class="tile v" href="/raboty/bug2/" data-id="bug2" tabindex="-1" data-src="/r/bug2-m.37ad6a39.mp4" data-small="/r/bug2-s.4a04a1d0.mp4" aria-label="Открыть ролик: История с продолжением, Мультфильм"><img class="zast" src="/r/bug2-m.de79e2a7.jpg" srcset="/r/bug2-s.f0171a53.jpg 240w, /r/bug2-m.de79e2a7.jpg 360w, /r/bug2.0acdcff7.jpg 540w" sizes="33vw" alt="" decoding="async" width="360" height="640"><span class="cap"><i>Мультфильм</i></span></a><a class="tile v" href="/raboty/sm5/" data-id="sm5" tabindex="-1" data-src="/r/sm5-m.fec2496c.mp4" data-small="/r/sm5-s.8cd2ab91.mp4" aria-label="Открыть ролик: Ресторан: вечеринка, Мультсериал"><img class="zast" src="/r/sm5-m.13824682.jpg" srcset="/r/sm5-s.e0401570.jpg 240w, /r/sm5-m.13824682.jpg 360w, /r/sm5.726ea251.jpg 540w" sizes="33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>Мультсериал</i></span></a><a class="tile v" href="/raboty/med3/" data-id="med3" tabindex="-1" data-src="/r/med3-m.ea950998.mp4" data-small="/r/med3-s.bc526159.mp4" aria-label="Открыть ролик: Как работает приложение, 3D-анимация"><img class="zast" src="/r/med3-m.828dbbe5.jpg" srcset="/r/med3-s.f2781a76.jpg 240w, /r/med3-m.828dbbe5.jpg 360w, /r/med3.e66c438e.jpg 540w" sizes="33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>3D-анимация</i></span></a><a class="tile v" href="/raboty/sm3/" data-id="sm3" tabindex="-1" data-src="/r/sm3-m.d39bde04.mp4" data-small="/r/sm3-s.848d2ab5.mp4" aria-label="Открыть ролик: Ресторан: фирменное блюдо, Мультсериал"><img class="zast" src="/r/sm3-m.4e1dbc53.jpg" srcset="/r/sm3-s.736a94fb.jpg 240w, /r/sm3-m.4e1dbc53.jpg 360w, /r/sm3.5e527ba7.jpg 540w" sizes="33vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>Мультсериал</i></span></a></div></div></div></div></div>
+    <div class="hero-offer"><p class="lead">Разберу вашу нишу и конкурентов, найду, что там уже набирает просмотры, и на этой основе сделаю для вас ролики — регулярно, по графику.</p>
+    <div class="hero-actions"><a class="cta" href="https://t.me/alexanderkutnyak?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D1%80%D0%BE%D0%BB%D0%B8%D0%BA.%20%D0%9C%D0%BE%D0%B9%20%D1%82%D0%BE%D0%B2%D0%B0%D1%80%2C%20%D1%83%D1%81%D0%BB%D1%83%D0%B3%D0%B0%20%D0%B8%D0%BB%D0%B8%20%D0%BA%D0%B0%D0%BD%D0%B0%D0%BB%3A%20" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.7.8l-4.8-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2l-11 6.9-4.7-1.5c-1-.3-1-1 .2-1.5l18.5-7.1c.9-.3 1.6.2 1.4 1.2Z"/></svg>Обсудить ролик</a><button type="button" class="motion-control" data-motion hidden>Остановить движение</button></div></div>
   </div>
 </section>
+<section class="result-band" id="rezultat"><h2 class="metric"><strong>500+</strong> <span>млн</span></h2>
+          <div><p>просмотров у моих роликов</p><a class="more" href="/raboty/">Посмотреть работы</a></div></section>
 
-<section class="sec light metod" id="metod">
-  <p class="eyebrow">01 / Как я делаю ролики</p>
-  <h2 class="h2">Сначала — разбор ниши. Потом — ролик<span class="word-dot" aria-hidden="true">.</span></h2>
-  <p class="sub">Смотрю не на всё популярное подряд, а на ролики, которые набрали в разы больше, чем обычно набирает их же канал. В них видно, что сейчас цепляет зрителя в вашей нише.</p>
-  <ol class="shagi"><li><span class="n">01</span><b>Находим, что зашло</b><span>Ролики конкурентов, которые набрали в разы больше обычного для своего канала.</span></li><li><span class="n">02</span><b>Разбираем, почему</b><span>Тема, первые секунды, обложка, темп — что именно сработало.</span></li><li><span class="n">03</span><b>Делаем ваш ролик</b><span>По этим находкам, со своей картинкой и своими словами. Без копирования.</span></li><li><span class="n">04</span><b>Смотрим цифры</b><span>Раз в неделю: что зашло — продолжаем серией, что нет — меняем.</span></li></ol>
-  <p class="primer">Например: ролик конкурента набрал втрое больше, чем обычно у его канала. Разбираем, что сработало, и делаем свой — с вашим товаром и вашими словами.</p>
+<section class="sec method-section" id="metod">
+  <div class="section-head"><div><p class="kicker">Как я делаю ролики</p><h2 class="headline">Что уже смотрят в вашей нише?</h2></div>
+    <p class="section-lead">Сравниваю ролик конкурента с другими выпусками того же канала. Если его посмотрели заметно больше людей, разбираю, что могло привлечь внимание.</p></div>
+  <ol class="method-steps"><li><b>Найду тему</b><p>Отберу ролики в вашей нише, которые выделяются по просмотрам.</p></li><li><b>Разберу подачу</b><p>Посмотрю, чем цепляют первые секунды и как автор удерживает внимание дальше.</p></li><li><b>Покажу сценарий</b><p>Предложу историю о вашем товаре или услуге. Вы увидите сценарий до работы над роликом.</p></li><li><b>Сверю отклик</b><p>Если веду канал, раз в неделю смотрю цифры и предлагаю, какие темы продолжить.</p></li></ol>
+  <div class="study" id="razbor-primera" data-storis><div class="study-intro"><p class="kicker">Разбор примера</p>
+          <h3>Как показать, что делает приложение?</h3><p>В разборе такой ниши я бы отдельно посмотрел, с чего начинаются ролики о тренировках. Вот два приёма, которые можно проверить на вашем материале.</p><button type="button" class="motion-control" data-motion hidden>Остановить движение</button></div><div class="study-films"><figure><a class="tile v" href="/raboty/med2/" data-id="med2" data-src="/r/med2-m.2a06d769.mp4" data-small="/r/med2-s.4d508bfe.mp4" aria-label="Открыть ролик: Приложение: реклама в 3D, 3D-анимация"><img class="zast" src="/r/med2-m.61438b22.jpg" srcset="/r/med2-s.40fa9b16.jpg 240w, /r/med2-m.61438b22.jpg 360w, /r/med2.36da9bc2.jpg 540w" sizes="(min-width:900px) 29vw, 48vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>3D-анимация</i></span></a><figcaption><b>Показать движение</b><span>У бегущего человека цветом выделены мышцы ног. Сразу видно, на что смотреть.</span></figcaption></figure><figure><a class="tile v" href="/raboty/med3/" data-id="med3" data-src="/r/med3-m.ea950998.mp4" data-small="/r/med3-s.bc526159.mp4" aria-label="Открыть ролик: Как работает приложение, 3D-анимация"><img class="zast" src="/r/med3-m.828dbbe5.jpg" srcset="/r/med3-s.f2781a76.jpg 240w, /r/med3-m.828dbbe5.jpg 360w, /r/med3.e66c438e.jpg 540w" sizes="(min-width:900px) 29vw, 48vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>3D-анимация</i></span></a><figcaption><b>Показать экран</b><span>Рядом с фигурой виден телефон, а на его экране — карта маршрута.</span></figcaption></figure></div><details class="crop-study"><summary>Один кадр до и после приближения<i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg></i></summary><div class="crop-pair"><figure><div class="crop-frame"><img src="/r/med2.36da9bc2.jpg" alt="" loading="lazy" width="540" height="960"></div><figcaption><b>Исходный план</b><span>Целиком видна фигура бегущего человека.</span></figcaption></figure><figure><div class="crop-frame"><img src="/r/med2.36da9bc2.jpg" alt="" loading="lazy" width="540" height="960"></div><figcaption><b>Крупный план</b><span>Крупнее видны мышцы, выделенные красным.</span></figcaption></figure></div></details></div>
 </section>
-
-<section class="sec dark vidy" id="raboty">
-  <p class="eyebrow">02 / Что сделаю</p>
-  <h2 class="h2">Посмотрите, как это выглядит<span class="word-dot" aria-hidden="true">.</span></h2>
-  <p class="sub">Нажмите на ролик — откроется целиком. Из просмотра можно сразу написать мне.</p>
-  
-  <div class="vgrid" data-storis><div class="vid"><a class="tile v" href="/raboty/sm1/" data-id="sm1" data-ids="sm1,sm2,sm6,sm5,sm3" aria-label="Открыть ролик: Ресторан: праздник в зале, Мультсериал"><img class="zast" src="/r/sm1-m.ecaf9ae8.jpg" srcset="/r/sm1-s.8a27923a.jpg 240w, /r/sm1-m.ecaf9ae8.jpg 360w, /r/sm1.c2c8382c.jpg 540w" sizes="(min-width:1340px) 17vw, (min-width:700px) 33vw, 49vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>Мультсериал</i></span></a><h3>Мультсериал с героями</h3><p>Одни и те же герои в каждой серии: зритель ждёт продолжения.</p></div><div class="vid"><a class="tile v" href="/raboty/doll1/" data-id="doll1" data-ids="doll1,doll2" aria-label="Открыть ролик: 3D-герой бренда, 3D-персонаж"><img class="zast" src="/r/doll1-m.cf6ddcf1.jpg" srcset="/r/doll1-s.373cdea7.jpg 240w, /r/doll1-m.cf6ddcf1.jpg 360w, /r/doll1.d195d2c3.jpg 540w" sizes="(min-width:1340px) 17vw, (min-width:700px) 33vw, 49vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>3D-персонаж</i></span></a><h3>3D-герой бренда</h3><p>Свой герой, который ведёт ваши ролики.</p></div><div class="vid"><a class="tile v" href="/raboty/med1/" data-id="med1" data-ids="med1,med2,med3" aria-label="Открыть ролик: Клиника: объяснили лечение, 3D-анимация"><img class="zast" src="/r/med1-m.4c684031.jpg" srcset="/r/med1-s.810ee0db.jpg 240w, /r/med1-m.4c684031.jpg 360w, /r/med1.bd62991b.jpg 540w" sizes="(min-width:1340px) 17vw, (min-width:700px) 33vw, 49vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>3D-анимация</i></span></a><h3>3D-анимация</h3><p>Покажет, как устроен товар или услуга.</p></div><div class="vid"><a class="tile v" href="/raboty/bug1/" data-id="bug1" data-ids="bug1,bug2" aria-label="Открыть ролик: Мультфильм с продолжением, Мультфильм"><img class="zast" src="/r/bug1-m.65479658.jpg" srcset="/r/bug1-s.15319b1e.jpg 240w, /r/bug1-m.65479658.jpg 360w, /r/bug1.6d74c5eb.jpg 540w" sizes="(min-width:1340px) 17vw, (min-width:700px) 33vw, 49vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>Мультфильм</i></span></a><h3>Мультфильм</h3><p>История с продолжением для канала.</p></div><div class="vid"><a class="tile v" href="/raboty/hor/" data-id="hor" data-ids="hor" aria-label="Открыть ролик: Атмосферная сцена, Кино-сцена"><img class="zast" src="/r/hor-m.bd04436c.jpg" srcset="/r/hor-s.b2de8b10.jpg 240w, /r/hor-m.bd04436c.jpg 360w, /r/hor.e422e514.jpg 540w" sizes="(min-width:1340px) 17vw, (min-width:700px) 33vw, 49vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>Кино-сцена</i></span></a><h3>Кино-сцены</h3><p>Атмосфера и напряжение с первой секунды.</p></div><div class="vid"><a class="tile kart" href="/i/k1.a19f4c90.jpg" aria-label="Картинки: открыть примеры"><img class="zast" src="/i/k1-s.7a52e693.jpg" alt="" loading="lazy" decoding="async" width="800" height="343"></a><h3>Картинки</h3><p>Обложки, баннеры, герои бренда — по образцу тех, что набирают в нише.</p></div></div>
-  <div class="vlinks"><a class="all" href="/raboty/">Все работы<span aria-hidden="true"> →</span></a><a class="all" href="/reklama-tovarov/">Реклама товаров<span aria-hidden="true"> →</span></a></div>
-  
+<section class="sec dark formats" id="raboty">
+  <div class="section-head"><div><p class="kicker">Что сделаю</p><h2 class="headline">Как это выглядит в кадре</h2></div>
+    <div><p class="section-lead">Нажмите на пример, чтобы посмотреть его целиком.</p><button type="button" class="motion-control" data-motion hidden>Остановить движение</button></div></div>
+  <div class="format-grid" data-storis><article class="format-piece"><a class="tile v" href="/raboty/sm1/" data-id="sm1" data-ids="sm1,sm2,sm6,sm5,sm3" data-src="/r/sm1-m.2aee969e.mp4" data-small="/r/sm1-s.65e1672a.mp4" aria-label="Открыть ролик: Ресторан: праздник в зале, Мультсериал"><img class="zast" src="/r/sm1-m.ecaf9ae8.jpg" srcset="/r/sm1-s.8a27923a.jpg 240w, /r/sm1-m.ecaf9ae8.jpg 360w, /r/sm1.c2c8382c.jpg 540w" sizes="(min-width:900px) 40vw, 85vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>Мультсериал</i></span></a><h3>Мультсериал с героями</h3><p>Постоянные герои связывают выпуски в одну историю.</p></article><article class="format-piece"><a class="tile v" href="/raboty/doll1/" data-id="doll1" data-ids="doll1,doll2" data-src="/r/doll1-m.445cbb73.mp4" data-small="/r/doll1-s.3f4f2395.mp4" aria-label="Открыть ролик: 3D-герой бренда, 3D-персонаж"><img class="zast" src="/r/doll1-m.cf6ddcf1.jpg" srcset="/r/doll1-s.373cdea7.jpg 240w, /r/doll1-m.cf6ddcf1.jpg 360w, /r/doll1.d195d2c3.jpg 540w" sizes="(min-width:900px) 40vw, 85vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>3D-персонаж</i></span></a><h3>3D-герой бренда</h3><p>Персонаж может показывать новинки и появляться в следующих выпусках.</p></article><article class="format-piece"><a class="tile v" href="/raboty/med1/" data-id="med1" data-ids="med1,med2,med3" data-src="/r/med1-m.9cfea8fa.mp4" data-small="/r/med1-s.2d30b5d7.mp4" aria-label="Открыть ролик: Клиника: объяснили лечение, 3D-анимация"><img class="zast" src="/r/med1-m.4c684031.jpg" srcset="/r/med1-s.810ee0db.jpg 240w, /r/med1-m.4c684031.jpg 360w, /r/med1.bd62991b.jpg 540w" sizes="(min-width:900px) 40vw, 85vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>3D-анимация</i></span></a><h3>3D-анимация</h3><p>Движение и детали, которые трудно показать обычной камерой.</p></article><article class="format-piece"><a class="tile v" href="/raboty/bug1/" data-id="bug1" data-ids="bug1,bug2" data-src="/r/bug1-m.56066fcb.mp4" data-small="/r/bug1-s.eb0aedc6.mp4" aria-label="Открыть ролик: Мультфильм с продолжением, Мультфильм"><img class="zast" src="/r/bug1-m.65479658.jpg" srcset="/r/bug1-s.15319b1e.jpg 240w, /r/bug1-m.65479658.jpg 360w, /r/bug1.6d74c5eb.jpg 540w" sizes="(min-width:900px) 40vw, 85vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>Мультфильм</i></span></a><h3>Мультфильм</h3><p>Короткий сюжет, к которому можно сделать продолжение.</p></article><article class="format-piece"><a class="tile v" href="/raboty/hor/" data-id="hor" data-ids="hor" data-src="/r/hor-m.4e2dedf9.mp4" data-small="/r/hor-s.ee83225f.mp4" aria-label="Открыть ролик: Атмосферная сцена, Кино-сцена"><img class="zast" src="/r/hor-m.bd04436c.jpg" srcset="/r/hor-s.b2de8b10.jpg 240w, /r/hor-m.bd04436c.jpg 360w, /r/hor.e422e514.jpg 540w" sizes="(min-width:900px) 40vw, 85vw" alt="" decoding="async" loading="lazy" width="360" height="640"><span class="cap"><i>Кино-сцена</i></span></a><h3>Кино-сцены</h3><p>Свет, крупный план и темп задают настроение истории.</p></article><article class="format-piece"><a class="tile kart" href="/i/k1.a19f4c90.jpg" aria-label="Картинки: открыть примеры">
+          <img class="zast" src="/i/k1-s.7a52e693.jpg" alt="" loading="lazy" decoding="async" width="800" height="343"></a>
+          <h3>Картинки</h3><p>Обложки, баннеры, герои бренда — по образцу тех, что набирают в нише.</p></article></div>
+  <nav class="format-links" aria-label="Другие примеры"><a class="more" href="/raboty/">Все работы</a><a class="more" href="/reklama-tovarov/">Реклама товаров</a></nav>
 </section>
+<section class="sec producer" id="kto"><div><p class="kicker">Продюсер</p><h2 class="headline">Ваш ролик веду лично</h2></div>
+  <div class="producer-copy"><p>Вы обсуждаете со мной и задачу, и сценарий. Я отвечаю за картинку, звук и готовый файл. Если веду канал, после выхода разбираю и цифры.</p><div class="me"><div class="monogram" aria-hidden="true">ак<span class="brand-dot"></span></div><div class="nm"><b>Александр Кутняк</b><small>Продюсер роликов</small></div></div></div>
+  </section>
+<section class="feature-trial" id="cena">
+      <div class="trial-layout"><div class="trial-offer"><h2 class="trial-title"><span class="trial-one">1</span> <span>ролик<br>на пробу</span></h2>
+      <p>Прежде чем заказывать серию, посмотрите один готовый ролик о вашем бизнесе.</p><a class="cta" href="https://t.me/alexanderkutnyak?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BD%D0%B0%D1%87%D0%B0%D1%82%D1%8C%20%D1%81%20%D0%BE%D0%B4%D0%BD%D0%BE%D0%B3%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B1%D0%BD%D0%BE%D0%B3%D0%BE%20%D1%80%D0%BE%D0%BB%D0%B8%D0%BA%D0%B0.%20%D0%9C%D0%BE%D1%8F%20%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%3A%20" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.7.8l-4.8-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2l-11 6.9-4.7-1.5c-1-.3-1-1 .2-1.5l18.5-7.1c.9-.3 1.6.2 1.4 1.2Z"/></svg>Обсудить пробный ролик</a></div>
+      <ol class="trial-road"><li><b>До начала</b><span>Договоримся, что показываем, где выйдет ролик, сколько он стоит и когда будет готов.</span></li><li><b>Сценарий</b><span>Вы увидите историю на бумаге и согласуете её до работы над кадрами.</span></li><li><b>Готовый ролик</b><span>Посмотрите, как выглядит ваш товар или услуга в кадре. После просмотра решите, нужна ли серия.</span></li></ol></div></section>
+      
+<section class="sec plans" id="seriya"><div class="section-head"><h2 class="headline">Если нужен регулярный выпуск</h2>
+  <p class="section-lead">Стоимость серии зависит от формата, числа выпусков и того, кто ведёт канал.</p></div><ul class="plan-list"><li><h3><a href="/roliki-pod-klyuch/">Ролики каждый месяц</a></h3><p>Когда для публикаций постоянно нужны новые темы. Согласуем план на месяц, я подготовлю ролики к оговорённым дням.</p></li><li><h3><a href="/razvitie-kanala/">Канал целиком</a></h3><p>Когда хотите передать и выпуск, и работу с каналом. Беру на себя обложки, названия, выкладку и еженедельный разбор цифр.</p></li></ul></section>
 
-<section class="sec light author" id="kto">
-  <p class="eyebrow">03 / Продюсер</p>
-  <h2 class="h2">Продюсер роликов<span class="word-dot" aria-hidden="true">.</span></h2>
-  <div class="me"><div class="monogram" aria-hidden="true">ак<span class="brand-dot"></span></div><div class="nm"><b>Александр Кутняк</b><small>Отвечаю за результат</small></div></div>
-  <div class="about"><p>Мои ролики посмотрели больше 500 миллионов раз.</p><p>Ваши ролики веду от разбора ниши до цифр после выхода: тема, сценарий, картинка, звук и срок. Каждый ролик проходит через меня.</p></div>
-</section>
-
-<section class="sec light" id="cena">
-  <p class="eyebrow">04 / Понятный первый шаг</p>
-  <h2 class="h2">Как начнём<span class="word-dot" aria-hidden="true">.</span></h2>
-  <p class="sub">Стоимость обсудим до начала работы. Она зависит от объёма, формата, ведения канала и срока.</p>
-  <ol class="lesenka"><li class="st1"><span class="mera" aria-hidden="true"><i class="on"></i><i></i><i></i></span><b>Пробный ролик</b><span>Короткий разбор вашей ниши: что там сейчас набирает. И один ролик на его основе.</span></li><li class="st2"><span class="mera" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i></span><b>Ролики каждый месяц</b><span>План тем по разбору ниши и выпуск по графику.</span><a class="more" href="/roliki-pod-klyuch/">Подробнее<span aria-hidden="true"> →</span></a></li><li class="st3"><span class="mera" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span><b>Канал целиком</b><span>Плюс выкладка и разбор цифр каждую неделю: что зашло — продолжаем серией.</span><a class="more" href="/razvitie-kanala/">Подробнее<span aria-hidden="true"> →</span></a></li></ol>
-  <div class="trial"><p class="otvas">От вас — пара строк: что продаёте, кому и где хотите показывать ролики. Отвечаю сам.</p>
-    <a class="" href="https://t.me/alexanderkutnyak?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D0%B4%D0%B8%D0%BD%20%D1%80%D0%BE%D0%BB%D0%B8%D0%BA%20%D0%BD%D0%B0%20%D0%BF%D1%80%D0%BE%D0%B1%D1%83.%0A%D0%A7%D1%82%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D1%8E%3A%20%0A%D0%94%D0%BB%D1%8F%20%D0%BA%D0%BE%D0%B3%D0%BE%3A%20%0A%D0%97%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%20%D1%80%D0%BE%D0%BB%D0%B8%D0%BA%D0%B0%3A%20" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.7.8l-4.8-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2l-11 6.9-4.7-1.5c-1-.3-1-1 .2-1.5l18.5-7.1c.9-.3 1.6.2 1.4 1.2Z"/></svg>Хочу пробный ролик</a>
-  </div>
-</section>
-
-<section class="sec light esche" id="esche">
-  <p class="eyebrow">05 / Не только ролики</p>
-  <h2 class="h2">Ещё делаю<span class="word-dot" aria-hidden="true">.</span></h2>
-  <ul class="elist"><li><b>Сайт</b><span>Как этот: быстрый, удобный с телефона, с кнопкой в Телеграм.</span></li><li><b>Телеграм-бот</b><span>Принимает заявки и отвечает клиентам.</span></li><li><b>Автоматизация</b><span>Рутину, которая отнимает время, отдаём программе.</span></li></ul>
-  <a class="probe wide" href="https://t.me/alexanderkutnyak?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%21%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82%20%D1%81%D0%B0%D0%B9%D1%82%20%D0%B8%D0%BB%D0%B8%20%D0%B1%D0%BE%D1%82.%20%D0%97%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%3A%20" target="_blank" rel="noopener">Обсудить сайт или бота</a>
-</section>
-
-
-<section class="final" id="final">
-  <div class="strip" id="strip" aria-hidden="true"><img src="/r/med1-s.810ee0db.jpg" alt="" loading="lazy" width="96" height="170"><img src="/r/sm1-s.8a27923a.jpg" alt="" loading="lazy" width="96" height="170"><img src="/r/bug1-s.15319b1e.jpg" alt="" loading="lazy" width="96" height="170"><img src="/r/doll1-s.373cdea7.jpg" alt="" loading="lazy" width="96" height="170"><img src="/r/hor-s.b2de8b10.jpg" alt="" loading="lazy" width="96" height="170"><img src="/r/sm2-s.c5efc724.jpg" alt="" loading="lazy" width="96" height="170"><img src="/r/med2-s.40fa9b16.jpg" alt="" loading="lazy" width="96" height="170"><img src="/r/sm6-s.a079d60a.jpg" alt="" loading="lazy" width="96" height="170"><img src="/r/doll2-s.0a92aa61.jpg" alt="" loading="lazy" width="96" height="170"><img src="/r/sm5-s.e0401570.jpg" alt="" loading="lazy" width="96" height="170"><img src="/r/med3-s.f2781a76.jpg" alt="" loading="lazy" width="96" height="170"><img src="/r/bug2-s.f0171a53.jpg" alt="" loading="lazy" width="96" height="170"><img src="/r/sm3-s.736a94fb.jpg" alt="" loading="lazy" width="96" height="170"><img src="/r/med1-s.810ee0db.jpg" alt="" loading="lazy" width="96" height="170"><img src="/r/sm1-s.8a27923a.jpg" alt="" loading="lazy" width="96" height="170"><img src="/r/bug1-s.15319b1e.jpg" alt="" loading="lazy" width="96" height="170"><img src="/r/doll1-s.373cdea7.jpg" alt="" loading="lazy" width="96" height="170"><img src="/r/hor-s.b2de8b10.jpg" alt="" loading="lazy" width="96" height="170"><img src="/r/sm2-s.c5efc724.jpg" alt="" loading="lazy" width="96" height="170"><img src="/r/med2-s.40fa9b16.jpg" alt="" loading="lazy" width="96" height="170"><img src="/r/sm6-s.a079d60a.jpg" alt="" loading="lazy" width="96" height="170"><img src="/r/doll2-s.0a92aa61.jpg" alt="" loading="lazy" width="96" height="170"><img src="/r/sm5-s.e0401570.jpg" alt="" loading="lazy" width="96" height="170"><img src="/r/med3-s.f2781a76.jpg" alt="" loading="lazy" width="96" height="170"><img src="/r/bug2-s.f0171a53.jpg" alt="" loading="lazy" width="96" height="170"><img src="/r/sm3-s.736a94fb.jpg" alt="" loading="lazy" width="96" height="170"></div>
-  <div class="in">
-    <h2 class="fbig">Начнём с вашей задачи.</h2>
-    <p>Что продаёте, кому и где? Напишите пару строк. Я отвечу сам и предложу, с чего начать.</p>
-    <a class="cta" href="https://t.me/alexanderkutnyak?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D1%80%D0%BE%D0%BB%D0%B8%D0%BA%D0%B8%20%D0%B4%D0%BB%D1%8F%20%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0.%0A%D0%A7%D1%82%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D1%8E%3A%20%0A%D0%94%D0%BB%D1%8F%20%D0%BA%D0%BE%D0%B3%D0%BE%3A%20%0A%D0%93%D0%B4%D0%B5%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BF%D0%BE%D0%BA%D0%B0%D0%B7%D1%8B%D0%B2%D0%B0%D1%82%D1%8C%3A%20" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.7.8l-4.8-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2l-11 6.9-4.7-1.5c-1-.3-1-1 .2-1.5l18.5-7.1c.9-.3 1.6.2 1.4 1.2Z"/></svg>Написать в Телеграм</a>
-    <div class="handle">@alexanderkutnyak</div>
-  </div>
-</section>
-</main>
-<footer class="foot"><nav class="fnav" aria-label="Разделы"><a href="/">Главная</a><a href="/roliki-pod-klyuch/">Ролики под ключ</a><a href="/reklama-tovarov/">Реклама товаров</a><a href="/razvitie-kanala/">Развитие и рост канала</a><a href="/raboty/">Работы</a></nav><div class="fline"><span>Александр Кутняк</span><span>2026</span></div></footer>
-<div class="dock" id="dock"><a class="cta" href="https://t.me/alexanderkutnyak?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D1%80%D0%BE%D0%BB%D0%B8%D0%BA%D0%B8%20%D0%B4%D0%BB%D1%8F%20%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0.%0A%D0%A7%D1%82%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D1%8E%3A%20%0A%D0%94%D0%BB%D1%8F%20%D0%BA%D0%BE%D0%B3%D0%BE%3A%20%0A%D0%93%D0%B4%D0%B5%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BF%D0%BE%D0%BA%D0%B0%D0%B7%D1%8B%D0%B2%D0%B0%D1%82%D1%8C%3A%20" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.7.8l-4.8-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2l-11 6.9-4.7-1.5c-1-.3-1-1 .2-1.5l18.5-7.1c.9-.3 1.6.2 1.4 1.2Z"/></svg>Обсудить задачу</a><a class="probe" href="https://t.me/alexanderkutnyak?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D0%B4%D0%B8%D0%BD%20%D1%80%D0%BE%D0%BB%D0%B8%D0%BA%20%D0%BD%D0%B0%20%D0%BF%D1%80%D0%BE%D0%B1%D1%83.%0A%D0%A7%D1%82%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D1%8E%3A%20%0A%D0%94%D0%BB%D1%8F%20%D0%BA%D0%BE%D0%B3%D0%BE%3A%20%0A%D0%97%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%20%D1%80%D0%BE%D0%BB%D0%B8%D0%BA%D0%B0%3A%20" target="_blank" rel="noopener">Ролик<br>на пробу</a></div>
-<script>window.S={"tg":"alexanderkutnyak","m":"/r/","t":{"tak":"Здравствуйте! Хочу такой же ролик, как у вас на сайте: «{format}». Моя задача: "},"raboty":[{"i":"med1","f":"3D-анимация","n":"Клиника: объяснили лечение"},{"i":"sm1","f":"Мультсериал","n":"Ресторан: праздник в зале"},{"i":"bug1","f":"Мультфильм","n":"Мультфильм с продолжением"},{"i":"doll1","f":"3D-персонаж","n":"3D-герой бренда"},{"i":"hor","f":"Кино-сцена","n":"Атмосферная сцена"},{"i":"sm2","f":"Мультсериал","n":"Ресторан: серия для соцсетей"},{"i":"med2","f":"3D-анимация","n":"Приложение: реклама в 3D"},{"i":"sm6","f":"Мультсериал","n":"Ресторан: встреча гостей"},{"i":"doll2","f":"3D-персонаж","n":"Ведущий, которого нет"},{"i":"sm5","f":"Мультсериал","n":"Ресторан: вечеринка"},{"i":"med3","f":"3D-анимация","n":"Как работает приложение"},{"i":"bug2","f":"Мультфильм","n":"История с продолжением"},{"i":"sm3","f":"Мультсериал","n":"Ресторан: фирменное блюдо"}],"media":{"med1":["/r/med1.0dffa7c1.mp4","/r/med1.bd62991b.jpg"],"sm1":["/r/sm1.1d3662a2.mp4","/r/sm1.c2c8382c.jpg"],"bug1":["/r/bug1.2743ce0a.mp4","/r/bug1.6d74c5eb.jpg"],"doll1":["/r/doll1.6f28f883.mp4","/r/doll1.d195d2c3.jpg"],"hor":["/r/hor.9ac40c6e.mp4","/r/hor.e422e514.jpg"],"sm2":["/r/sm2.4264f482.mp4","/r/sm2.90908802.jpg"],"med2":["/r/med2.4e1a0f01.mp4","/r/med2.36da9bc2.jpg"],"sm6":["/r/sm6.1873ab47.mp4","/r/sm6.7e5f1bd1.jpg"],"doll2":["/r/doll2.d6a8da1c.mp4","/r/doll2.179de793.jpg"],"sm5":["/r/sm5.cb3ea500.mp4","/r/sm5.726ea251.jpg"],"med3":["/r/med3.4a83f22a.mp4","/r/med3.e66c438e.jpg"],"bug2":["/r/bug2.3ab46fb9.mp4","/r/bug2.0acdcff7.jpg"],"sm3":["/r/sm3.ae31ed72.mp4","/r/sm3.5e527ba7.jpg"]},"kartinki":{"spisok":[{"i":"k1","src":"/i/k1.a19f4c90.jpg","p":"Подводный храм — место действия"},{"i":"k2","src":"/i/k2.0d833cad.jpg","p":"Двое героев — одни и те же в каждой сцене"},{"i":"k3","src":"/i/k3.e0ecf1aa.jpg","p":"Вход в храм"},{"i":"k4","src":"/i/k4.72d1c9e1.jpg","p":"Сундук несут на базу"},{"i":"k5","src":"/i/k5.cbb9472c.jpg","p":"Сундук на базе"},{"i":"k6","src":"/i/k6.3f470735.jpg","p":"Клад"}],"tekst":"Здравствуйте, Александр! Интересуют картинки. Что нужно: "}}</script>
-<script src="/k/storis.8ff0b2e1.js" defer></script>
-<script src="/k/sajt.7a37e9da.js" defer></script>
+<section class="sec esche more-services" id="esche"><div><h2 class="h2">Ещё делаю</h2>
+  <a class="more" href="https://t.me/alexanderkutnyak?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D1%81%D0%B0%D0%B9%D1%82%2C%20%D0%B1%D0%BE%D1%82%D0%B0%20%D0%B8%D0%BB%D0%B8%20%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8E.%20%D0%9C%D0%BE%D1%8F%20%D0%B7%D0%B0%D0%B4%D0%B0%D1%87%D0%B0%3A%20" target="_blank" rel="noopener">Обсудить сайт или бота</a></div>
+  <ul class="elist"><li><b>Сайт</b><span>Страница, на которой можно посмотреть работы и оставить заявку.</span></li><li><b>Телеграм-бот</b><span>Принимает обращения и отвечает на вопросы клиентов.</span></li><li><b>Автоматизация</b><span>Передаёт программе повторяющиеся задачи.</span></li></ul></section>
+<section class="sec faq faq-layout" id="voprosy"><h2 class="headline">До первого сообщения</h2>
+      <div class="answers"><details><summary>Что прислать для первого ролика?<i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg></i></summary><p>Расскажите, что вы продаёте, кому и где хотите показать ролик. Если есть фотографии товара или пример, который вам нравится, пришлите их в Телеграм.</p></details><details><summary>Когда я смогу посмотреть сценарий?<i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg></i></summary><p>До работы над кадрами. Я предложу тему, напишу сценарий и покажу его вам на согласование.</p></details></div></section>
+<section class="final contact-end" id="final"><div class="in">
+      <h2 class="fbig">О чём будет ваш первый ролик?</h2><div class="contact-copy"><p>Напишите мне в Телеграм, что хотите показать и кому. Я предложу, с какого формата начать, и обсудим стоимость.</p>
+      <a class="cta" href="https://t.me/alexanderkutnyak?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D1%80%D0%BE%D0%BB%D0%B8%D0%BA.%20%D0%9C%D0%BE%D0%B9%20%D1%82%D0%BE%D0%B2%D0%B0%D1%80%2C%20%D1%83%D1%81%D0%BB%D1%83%D0%B3%D0%B0%20%D0%B8%D0%BB%D0%B8%20%D0%BA%D0%B0%D0%BD%D0%B0%D0%BB%3A%20" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.7.8l-4.8-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2l-11 6.9-4.7-1.5c-1-.3-1-1 .2-1.5l18.5-7.1c.9-.3 1.6.2 1.4 1.2Z"/></svg>Обсудить ролик</a><div class="handle">@alexanderkutnyak</div></div></div></section>
+</main><footer class="foot"><nav class="fnav" aria-label="Разделы"><a href="/">Главная</a><a href="/roliki-pod-klyuch/">Ролики под ключ</a><a href="/reklama-tovarov/">Реклама товаров</a><a href="/razvitie-kanala/">Развитие и рост канала</a><a href="/raboty/">Работы</a></nav><div class="fline"><span>Александр Кутняк</span><span>2026</span></div></footer><div class="dock" id="dock"><a class="cta" href="https://t.me/alexanderkutnyak?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BE%D0%B1%D1%81%D1%83%D0%B4%D0%B8%D1%82%D1%8C%20%D1%80%D0%BE%D0%BB%D0%B8%D0%BA.%20%D0%9C%D0%BE%D0%B9%20%D1%82%D0%BE%D0%B2%D0%B0%D1%80%2C%20%D1%83%D1%81%D0%BB%D1%83%D0%B3%D0%B0%20%D0%B8%D0%BB%D0%B8%20%D0%BA%D0%B0%D0%BD%D0%B0%D0%BB%3A%20" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.7.8l-4.8-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2l-11 6.9-4.7-1.5c-1-.3-1-1 .2-1.5l18.5-7.1c.9-.3 1.6.2 1.4 1.2Z"/></svg>Обсудить ролик</a></div>
+<script>window.S={"tg":"alexanderkutnyak","m":"/r/","t":{"tak":"Здравствуйте, Александр! Мне понравился пример «{rabota}» ({format}). Хочу обсудить ролик для "},"raboty":[{"i":"med1","f":"3D-анимация","n":"Клиника: объяснили лечение"},{"i":"sm1","f":"Мультсериал","n":"Ресторан: праздник в зале"},{"i":"bug1","f":"Мультфильм","n":"Мультфильм с продолжением"},{"i":"doll1","f":"3D-персонаж","n":"3D-герой бренда"},{"i":"hor","f":"Кино-сцена","n":"Атмосферная сцена"},{"i":"sm2","f":"Мультсериал","n":"Ресторан: серия для соцсетей"},{"i":"med2","f":"3D-анимация","n":"Приложение: реклама в 3D"},{"i":"sm6","f":"Мультсериал","n":"Ресторан: встреча гостей"},{"i":"doll2","f":"3D-персонаж","n":"Ведущий, которого нет"},{"i":"sm5","f":"Мультсериал","n":"Ресторан: вечеринка"},{"i":"med3","f":"3D-анимация","n":"Как работает приложение"},{"i":"bug2","f":"Мультфильм","n":"История с продолжением"},{"i":"sm3","f":"Мультсериал","n":"Ресторан: фирменное блюдо"}],"media":{"med1":["/r/med1.0dffa7c1.mp4","/r/med1.bd62991b.jpg"],"sm1":["/r/sm1.1d3662a2.mp4","/r/sm1.c2c8382c.jpg"],"bug1":["/r/bug1.2743ce0a.mp4","/r/bug1.6d74c5eb.jpg"],"doll1":["/r/doll1.6f28f883.mp4","/r/doll1.d195d2c3.jpg"],"hor":["/r/hor.9ac40c6e.mp4","/r/hor.e422e514.jpg"],"sm2":["/r/sm2.4264f482.mp4","/r/sm2.90908802.jpg"],"med2":["/r/med2.4e1a0f01.mp4","/r/med2.36da9bc2.jpg"],"sm6":["/r/sm6.1873ab47.mp4","/r/sm6.7e5f1bd1.jpg"],"doll2":["/r/doll2.d6a8da1c.mp4","/r/doll2.179de793.jpg"],"sm5":["/r/sm5.cb3ea500.mp4","/r/sm5.726ea251.jpg"],"med3":["/r/med3.4a83f22a.mp4","/r/med3.e66c438e.jpg"],"bug2":["/r/bug2.3ab46fb9.mp4","/r/bug2.0acdcff7.jpg"],"sm3":["/r/sm3.ae31ed72.mp4","/r/sm3.5e527ba7.jpg"]},"kartinki":{"spisok":[{"i":"k1","src":"/i/k1.a19f4c90.jpg","p":"Подводный храм — место действия"},{"i":"k2","src":"/i/k2.0d833cad.jpg","p":"Двое героев — одни и те же в каждой сцене"},{"i":"k3","src":"/i/k3.e0ecf1aa.jpg","p":"Вход в храм"},{"i":"k4","src":"/i/k4.72d1c9e1.jpg","p":"Сундук несут на базу"},{"i":"k5","src":"/i/k5.cbb9472c.jpg","p":"Сундук на базе"},{"i":"k6","src":"/i/k6.3f470735.jpg","p":"Клад"}],"tekst":"Здравствуйте, Александр! Интересуют картинки. Что нужно: "}}</script>
+<script src="/k/storis.c2a89d12.js" defer></script>
+<script src="/k/sajt.ffba303b.js" defer></script>
 </body>
 </html>

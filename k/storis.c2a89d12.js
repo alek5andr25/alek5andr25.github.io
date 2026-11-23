@@ -121,7 +121,9 @@
     const item = items[index];
     title.textContent = item.title || item.label;
     caption.textContent = (index + 1) + ' / ' + items.length + (item.title ? ' · ' + item.label : '');
-    link.href = 'https://t.me/' + S.tg + '?text=' + encodeURIComponent((item.tekst || S.t.tak.replace('{format}', item.label)) + (S.ot || ''));
+    const message = item.tekst || S.t.tak.replace(/\{(rabota|format)\}/g, (_, field) =>
+      field === 'rabota' ? (item.title || item.label) : item.label);
+    link.href = 'https://t.me/' + S.tg + '?text=' + encodeURIComponent(message + (S.ot || ''));
     [...bars.children].forEach((bar, k) => { bar.firstChild.style.transform = k < index ? 'scaleX(1)' : 'scaleX(0)' });
     video.pause();
     video.hidden = soundButton.hidden = !!item.img;
