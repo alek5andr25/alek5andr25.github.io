@@ -735,7 +735,7 @@ html {scroll-padding-top:72px}
     @keyframes film-entry {from{transform:scale(1.055)}to{transform:scale(1)}}
   }
 }
-/* Один фильм и две половины одного титра. Граница задаётся родным ползунком. */
+/* Один фильм и две половины одного титра. Граница стоит на месте (ползунок со значком «↔» убран — Александр 24.11: «выглядит неаккуратно»). */
 .film-hero {padding:0;--cut:34%;--ink:#141510;--stock:#def36b}
 .film-hero .hero-layout {
   display:grid;position:relative;isolation:isolate;gap:0;grid-template-columns:minmax(0,1fr);
@@ -755,32 +755,22 @@ html {scroll-padding-top:72px}
 .film-hero .hero-title {pointer-events:none;z-index:2;color:var(--milk)}
 .film-hero .title-word {position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
 .film-hero .title-subject {
-  position:absolute;left:var(--gutter);top:clamp(16px,2vw,36px);max-width:9ch;margin:0;
+  position:absolute;left:var(--gutter);top:clamp(16px,2vw,36px);max-width:none;margin:0;
   font:italic 400 clamp(24px,3.9vw,70px)/.9 var(--editorial);letter-spacing:-.065em;
   color:var(--ink);background:var(--stock);box-shadow:0 0 0 .08em var(--stock)
 }
-.film-slider {
-  position:absolute;z-index:3;top:31%;left:calc(0% - 23px);width:calc(100% + 46px);height:46px;
-  margin:0;appearance:none;-webkit-appearance:none;background:transparent;border:0;
-  touch-action:pan-y;cursor:ew-resize;color:var(--ink)
-}
-.film-slider::-webkit-slider-runnable-track {height:46px;background:transparent}
-.film-slider::-moz-range-track {height:46px;background:transparent}
-.film-slider {
-  --thumb:var(--milk) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='20' viewBox='0 0 28 20' fill='none' stroke='%23141510' stroke-width='2'%3E%3Cpath d='m8 5-5 5 5 5m12-10 5 5-5 5M4 10h20'/%3E%3C/svg%3E") center/24px no-repeat
-}
-.film-slider::-webkit-slider-thumb {appearance:none;pointer-events:auto;width:46px;height:46px;border:1px solid var(--ink);border-radius:50%;background:var(--thumb)}
-.film-slider::-moz-range-thumb {pointer-events:auto;width:44px;height:44px;border:1px solid var(--ink);border-radius:50%;background:var(--thumb)}
-.film-slider:focus-visible {outline:2px dashed var(--milk);outline-offset:-2px}
 .film-hero .hero-offer {
   grid-area:2/1;position:relative;display:flex;align-items:center;justify-content:space-between;
   gap:24px;padding:clamp(19px,2vw,36px) var(--gutter);border:0;background:var(--ink)
 }
+.film-hero .title-subject .ln {display:block;white-space:nowrap}
 .film-hero .hero-offer .lead {max-width:52ch;font-size:clamp(16px,1.5vw,24px);line-height:1.35;margin:0}
-.film-hero .hero-actions {flex:none}
+.film-hero .hero-actions {flex:none;display:flex;align-items:center}
+.film-hero .hero-actions .probe {min-height:52px;padding-inline:20px;border-radius:100px;border-color:var(--milk);color:var(--milk);font-size:15px;font-weight:600}
+.film-hero .hero-actions .probe:hover {background:var(--milk);color:var(--ink)}
 .film-hero .hero-layout>.wall {
   grid-area:3/1;position:relative;inset:auto;display:block;overflow:hidden;
-  height:clamp(60px,6vw,96px);padding:2px 0;background:var(--ink)
+  height:clamp(84px,7vw,112px);padding:2px 0;background:var(--ink)
 }
 .film-reel {
   display:flex;width:max-content;height:100%;gap:2px;padding-right:2px;
@@ -799,20 +789,17 @@ html {scroll-padding-top:72px}
   .word-wide {display:none}
   .word-tall {display:block}
   .film-hero .title-subject {top:auto;bottom:5%;left:auto;right:var(--gutter);text-align:right;font-size:clamp(30px,9vw,48px);color:white;background:transparent;box-shadow:none;text-shadow:0 1px 6px #16140fe6}
-  .film-slider {top:52%}
   .film-hero .hero-offer {display:grid;gap:12px;padding-block:17px}
   .film-hero .hero-offer .lead {font-size:1rem;line-height:1.43;max-width:46ch}
   .film-hero .cover-play {width:46px}
-  .film-hero .hero-layout>.wall {height:52px}
+  .film-hero .hero-layout>.wall {height:76px}
   .film-hero .wall .tile {width:clamp(122px,calc(100vw / 3 - 2px),160px)}
 }
 @media(prefers-reduced-motion:no-preference) {
   .film-intro .film-left {animation:open-paper 1.45s cubic-bezier(.25,.7,.2,1) both}
   .film-intro .film-right {animation:open-letter 1.45s cubic-bezier(.25,.7,.2,1) both}
-  .film-intro .film-slider {animation:show-handle 1.45s ease-out both}
   @keyframes open-paper {from{width:90%}to{width:var(--cut)}}
   @keyframes open-letter {from{x:90%}to{x:var(--cut)}}
-  @keyframes show-handle {0%,65%{opacity:0}100%{opacity:1}}
 }
 @media(prefers-reduced-motion:reduce) {
   .film-reel {animation:none}

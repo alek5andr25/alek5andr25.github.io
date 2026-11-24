@@ -26,26 +26,53 @@
   let scrollTimer = 0;
   const player = $('.player video');
 
-  const slider = $('.film-slider');
-  if (hero && slider) {
-    const narrow = matchMedia('(max-width:759px)');
-    const reset = () => {
-      slider.value = narrow.matches ? 22 : 34;
-      hero.style.setProperty('--cut', slider.value + '%');
-    };
-    reset();
-    narrow.addEventListener('change', reset);
-    slider.hidden = false;
+  // Шторка титра открывается один раз и встаёт на место (граница — в стилях, ползунка нет: Александр 24.11).
+  if (hero?.classList.contains('film-hero')) {
     if (!calm()) hero.classList.add('film-intro');
-    const takeControl = () => hero.classList.remove('film-intro');
-    slider.addEventListener('pointerdown', takeControl);
-    slider.addEventListener('input', () => {
-      takeControl();
-      hero.style.setProperty('--cut', slider.value + '%');
-    });
     hero.addEventListener('animationend', event => {
-      if (event.animationName === 'open-paper') takeControl();
+      if (event.animationName === 'open-paper') hero.classList.remove('film-intro');
     });
+  }
+
+  // Лента под фильмом: играют все видимые ролики (немые лёгкие куски по 5 с) — Александр 24.11: «должны проигрываться».
+  // Лента едет сама, поэтому видимость проверяем по таймеру, а не наблюдателем. Не больше 4 на телефоне и 10 на компьютере.
+  const reel = $('.film-reel');
+  const reelOn = new Map();
+  let reelTimer = 0;
+  let reelReady = false;   // после загрузки страницы: ролики ленты не отнимают канал у первого экрана
+  function reelStop(tile) {
+    const video = reelOn.get(tile);
+    reelOn.delete(tile);
+    video.pause();
+    video.removeAttribute('src');
+    video.load();
+    video.remove();
+  }
+  function reelTick() {
+    const stopped = !reelReady || userPaused || calm() || document.hidden || document.body.classList.contains('paused') || !heroInView;
+    const want = new Set();
+    if (!stopped) {
+      const box = reel.parentElement.getBoundingClientRect();
+      const limit = innerWidth < 700 ? 4 : 10;
+      for (const tile of $$('.tile[data-src]', reel)) {
+        const r = tile.getBoundingClientRect();
+        if (r.right > box.left && r.left < box.right) want.add(tile);
+        if (want.size >= limit) break;
+      }
+    }
+    for (const tile of [...reelOn.keys()]) if (!want.has(tile)) reelStop(tile);
+    for (const tile of want) if (!reelOn.has(tile)) {
+      const video = document.createElement('video');
+      Object.assign(video, {muted: true, defaultMuted: true, loop: true, playsInline: true, preload: 'auto'});
+      video.setAttribute('aria-hidden', 'true');
+      video.addEventListener('playing', () => video.classList.add('playing'), {once:true});
+      reelOn.set(tile, video);
+      tile.querySelector('picture, img').after(video);
+      video.src = (innerWidth < 700 && tile.dataset.small) || tile.dataset.src;
+      video.play().catch(() => {});
+    }
+    clearTimeout(reelTimer);
+    reelTimer = stopped ? 0 : setTimeout(reelTick, 700);
   }
 
   function stopPreview(tile, video) {
@@ -108,6 +135,7 @@
     if (!scrollTimer) {
       for (const tile of wanted) if (!active.has(tile)) startPreview(tile);
     }
+    if (reel) reelTick();
   }
 
   if (hero) {
@@ -148,14 +176,18 @@
   player?.addEventListener('pause', refresh);
   updateControls();
   refresh();
-  const tiles = $$('.tile[data-src]');
+  const tiles = $$('.tile[data-src]').filter(tile => !tile.closest('.film-reel'));   // ленту ведёт reelTick
   const cover = $('.film-hero .wall-frame > .tile[data-src]');
   if (cover) {
     // Фильм начинает загружаться, как только готов его постер, независимо от ленты миниатюр.
     const watchCover = () => observeTiles([cover]);
     $('img', cover).decode().then(watchCover, watchCover);
   }
-  const afterLoad = () => setTimeout(() => observeTiles(tiles.filter(tile => tile !== cover)), 250);
+  const afterLoad = () => setTimeout(() => {
+    observeTiles(tiles.filter(tile => tile !== cover));
+    reelReady = true;
+    if (reel) reelTick();
+  }, 250);
   if (document.readyState === 'complete') afterLoad(); else addEventListener('load', afterLoad, {once:true});
 
   if (!calm()) {
