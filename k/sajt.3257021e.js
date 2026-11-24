@@ -35,7 +35,8 @@
   }
 
   // Лента под фильмом: играют все видимые ролики (немые лёгкие куски по 5 с) — Александр 24.11: «должны проигрываться».
-  // Лента едет сама, поэтому видимость проверяем по таймеру, а не наблюдателем. Не больше 4 на телефоне и 10 на компьютере.
+  // Лента едет сама, поэтому видимость проверяем по таймеру, а не наблюдателем. Не больше 6 на телефоне и 16 на компьютере.
+  // Плитки узкие (вертикальный кадр целиком), поэтому всегда лёгкая версия 240×426, где она есть.
   const reel = $('.film-reel');
   const reelOn = new Map();
   let reelTimer = 0;
@@ -53,7 +54,7 @@
     const want = new Set();
     if (!stopped) {
       const box = reel.parentElement.getBoundingClientRect();
-      const limit = innerWidth < 700 ? 4 : 10;
+      const limit = innerWidth < 700 ? 6 : 16;
       for (const tile of $$('.tile[data-src]', reel)) {
         const r = tile.getBoundingClientRect();
         if (r.right > box.left && r.left < box.right) want.add(tile);
@@ -68,7 +69,7 @@
       video.addEventListener('playing', () => video.classList.add('playing'), {once:true});
       reelOn.set(tile, video);
       tile.querySelector('picture, img').after(video);
-      video.src = (innerWidth < 700 && tile.dataset.small) || tile.dataset.src;
+      video.src = tile.dataset.small || tile.dataset.src;
       video.play().catch(() => {});
     }
     clearTimeout(reelTimer);

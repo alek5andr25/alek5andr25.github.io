@@ -735,11 +735,13 @@ html {scroll-padding-top:72px}
     @keyframes film-entry {from{transform:scale(1.055)}to{transform:scale(1)}}
   }
 }
-/* Один фильм и две половины одного титра. Граница стоит на месте (ползунок со значком «↔» убран — Александр 24.11: «выглядит неаккуратно»). */
-.film-hero {padding:0;--cut:34%;--ink:#141510;--stock:#def36b}
+/* Один фильм и две половины одного титра. Граница стоит на месте (ползунок со значком «↔» убран — Александр 24.11: «выглядит неаккуратно»).
+   Лента под фильмом — вертикальные ролики целиком, без обрезки (Александр 24.11, карточка 1647: «очень сильно обрезаны»);
+   фильм ниже на высоту ленты, чтобы первый экран помещался целиком. */
+.film-hero {padding:0;--cut:34%;--ink:#141510;--stock:#def36b;--reel:clamp(150px,13vw,220px)}
 .film-hero .hero-layout {
   display:grid;position:relative;isolation:isolate;gap:0;grid-template-columns:minmax(0,1fr);
-  grid-template-rows:clamp(365px,65svh,880px) auto auto
+  grid-template-rows:clamp(340px,calc(100svh - var(--reel) - 215px),880px) auto auto
 }
 .film-hero .wall-frame:has(>.tile),.film-hero .hero-title {
   grid-area:1/1;position:relative;width:100%;height:100%;margin:0;padding:0
@@ -770,7 +772,7 @@ html {scroll-padding-top:72px}
 .film-hero .hero-actions .probe:hover {background:var(--milk);color:var(--ink)}
 .film-hero .hero-layout>.wall {
   grid-area:3/1;position:relative;inset:auto;display:block;overflow:hidden;
-  height:clamp(84px,7vw,112px);padding:2px 0;background:var(--ink)
+  height:var(--reel);padding:2px 0;background:var(--ink)
 }
 .film-reel {
   display:flex;width:max-content;height:100%;gap:2px;padding-right:2px;
@@ -779,21 +781,21 @@ html {scroll-padding-top:72px}
 .film-reel :is(.col,.track,.dub) {display:contents;animation:none;will-change:auto}
 .film-reel .tile {order:var(--frame)}
 .film-reel .dub .tile {order:calc(var(--count) + var(--frame))}
-.film-hero .wall .tile {flex:none;height:100%;width:clamp(122px,calc(12.5vw - 2px),200px);aspect-ratio:auto;overflow:hidden}
+.film-hero .wall .tile {flex:none;height:100%;width:calc((var(--reel) - 4px) * 9 / 16);aspect-ratio:auto;overflow:hidden}
 .film-hero .wall .cap {padding:15px 8px 4px;white-space:nowrap;overflow:hidden}
 .hero.rest .film-reel,.paused .film-reel,html[data-calm] .film-reel {animation-play-state:paused}
 @keyframes film-strip {to{transform:translateX(-50%)}}
 @media(max-width:759px) {
-  .film-hero {--cut:22%}
-  .film-hero .hero-layout {grid-template-rows:clamp(305px,58svh,650px) auto auto}
+  .film-hero {--cut:22%;--reel:140px}
+  .film-hero .hero-layout {grid-template-rows:clamp(300px,calc(100svh - var(--reel) - 240px),650px) auto auto}
   .word-wide {display:none}
   .word-tall {display:block}
   .film-hero .title-subject {top:auto;bottom:5%;left:auto;right:var(--gutter);text-align:right;font-size:clamp(30px,9vw,48px);color:white;background:transparent;box-shadow:none;text-shadow:0 1px 6px #16140fe6}
   .film-hero .hero-offer {display:grid;gap:12px;padding-block:17px}
   .film-hero .hero-offer .lead {font-size:1rem;line-height:1.43;max-width:46ch}
   .film-hero .cover-play {width:46px}
-  .film-hero .hero-layout>.wall {height:76px}
-  .film-hero .wall .tile {width:clamp(122px,calc(100vw / 3 - 2px),160px)}
+  .film-hero .wall .cap {padding:15px 4px 4px}
+  .film-hero .wall .cap i {font-size:9px;letter-spacing:-.01em}
 }
 @media(prefers-reduced-motion:no-preference) {
   .film-intro .film-left {animation:open-paper 1.45s cubic-bezier(.25,.7,.2,1) both}
