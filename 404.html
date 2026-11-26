@@ -735,6 +735,45 @@ html {scroll-padding-top:72px}
     @keyframes film-entry {from{transform:scale(1.055)}to{transform:scale(1)}}
   }
 }
+/* «Результаты в цифрах»: свои шортсы, цифры и снимок статистики (z219 26.11); пустое — заглушка .ph до его снимков */
+.proof-grid {display:grid;grid-auto-flow:column;grid-auto-columns:min(78vw,340px);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;
+  margin-inline:calc(var(--gutter) * -1);padding-inline:var(--gutter);scroll-padding-inline:var(--gutter);scrollbar-width:none}
+.proof-grid::-webkit-scrollbar {display:none}
+.proof-card {scroll-snap-align:start;min-width:0;margin:0}
+.proof-card .tile {aspect-ratio:4/5;border-radius:0}
+.proof-card .zast,.proof-card video {object-position:50% 30%}
+.proof-card figcaption {padding-top:12px}
+.proof-card figcaption>b {display:block;font:800 clamp(1.1rem,1.7vw,1.6rem)/1.12 var(--display);letter-spacing:-.04em;text-wrap:balance}
+.proof-card dl {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:14px 0 0;padding-top:12px;border-top:1px solid var(--line)}
+.proof-card dt {font-size:.75rem;line-height:1.2;color:var(--muted)}
+.proof-card dd {margin:4px 0 0;font:800 clamp(1.25rem,2.2vw,2rem)/1 var(--display);letter-spacing:-.05em}
+.proof-shot {display:grid;place-items:center;margin-top:12px;min-height:92px;border:1px dashed var(--line);color:var(--muted);text-align:center;padding:10px}
+a.proof-shot {padding:0;border-style:solid}
+.proof-shot img {display:block;width:100%;height:auto}
+.ph {font:italic 500 .8125rem/1.3 var(--body);letter-spacing:0;color:var(--muted)}
+.proof-card dd .ph {font-size:.8125rem}
+@media(min-width:900px) {
+  .proof-grid {grid-auto-flow:row;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-columns:auto;overflow:visible;margin-inline:0;padding-inline:0;gap:clamp(14px,1.6vw,28px)}
+  .proof-card figcaption>b {min-height:2.24em}
+}
+
+/* Страница «Работы» — полки по приёму (z219 26.11, карточка 1736): до 1000 точек ряд листается вбок, шире — сетка */
+.polki {margin-top:28px;display:grid;gap:clamp(44px,5vw,80px)}
+#works.polki {margin-inline:0}
+#works.polki .what {padding-inline:0}
+.polka {min-width:0}
+.polka-head {margin-bottom:16px}
+.polka-head h2 {margin:0;font:800 clamp(1.45rem,3.2vw,2.6rem)/1.08 var(--display);letter-spacing:-.04em;text-wrap:balance}
+.polka-n {font:600 .8125rem/1 var(--body);letter-spacing:0;color:var(--muted);vertical-align:super}
+.polka-head p {margin:8px 0 0;max-width:56ch;font-size:15px;line-height:1.45;color:var(--muted)}
+.polka-ryad.works {grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:min(42vw,240px);gap:12px;margin-top:0;overflow-x:auto;
+  scroll-snap-type:x mandatory;margin-inline:calc(var(--gutter) * -1);padding-inline:var(--gutter);scroll-padding-inline:var(--gutter);scrollbar-width:none}
+.polka-ryad::-webkit-scrollbar {display:none}
+.polka-ryad .work {scroll-snap-align:start}
+@media(min-width:1000px) {
+  .polka-ryad.works {grid-auto-flow:row;grid-template-columns:repeat(auto-fill,minmax(clamp(210px,18vw,302px),1fr));grid-auto-columns:auto;
+    overflow:visible;margin-inline:0;padding-inline:0;gap:34px var(--grid-gap)}
+}
 /* Один фильм и две половины одного титра. Граница стоит на месте (ползунок со значком «↔» убран — Александр 24.11: «выглядит неаккуратно»).
    Лента под фильмом — вертикальные ролики целиком, без обрезки (Александр 24.11, карточка 1647: «очень сильно обрезаны»);
    фильм ниже на высоту ленты, чтобы первый экран помещался целиком. */
